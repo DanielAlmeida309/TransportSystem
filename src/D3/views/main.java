@@ -8,51 +8,52 @@ public class main {
         Scanner sc = new Scanner(System.in);
 
         while(true){
-            String comm = sc.next();
-            // String[] comm2 = comm.split(" ", 8);
+            String comm = sc.nextLine();
+            String[] comm2 = comm.split(" ", 8);
 
             switch (comm){
                 case "RF":
-                    commandRF(ts, sc);
+                    commandRF(ts, sc, comm2);
                     break;
 
                 case "RC":
-                    commandRC(ts, sc);
+                    commandRC(ts, sc, comm2);
                     break;
 
                 case "RI":
-                    commandRI(ts, sc);
+                    commandRI(ts, sc, comm2);
                     break;
 
                 case "RL":
-                    commandRL(ts, sc);
+                    commandRL(ts, sc, comm2);
                     break;
 
                 case "RD":
-                    commandRD(ts, sc);
+                    commandRD(ts, sc, comm2);
                     break;
 
                 case "RE":
-                    commandRE(ts, sc);
+                    commandRE(ts, sc, comm2);
                     break;
 
                 case "CC":
-                    commandCC(ts, sc);
+                    commandCC(ts, sc, comm2);
                     break;
 
                 case "CI":
-                    commandCI(ts, sc);
+                    commandCI(ts, sc, comm2);
                     break;
 
                 case "CE":
-                    commandCE(ts, sc);
+                    commandCE(ts, sc, comm2);
                     break;
 
                 case "CF":
-                    commandCF(ts, sc);
+                    commandCF(ts, sc, comm2);
                     break;
 
                 case "0":
+                    sc.close();
                     System.exit(0);
                     break;
                 default:
