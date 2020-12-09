@@ -11,7 +11,7 @@ public class main {
             String comm = sc.nextLine();
             String[] comm2 = comm.split(" ", 8);
 
-            switch (comm){
+            switch (comm2[0]){  //verificar o código do comando inserido
                 case "RF":
                     commandRF(ts, sc, comm2);
                     break;
@@ -62,6 +62,30 @@ public class main {
             }
 
         }
+    }
+
+    static void commandRF(TService ts,Scanner sc,String[] comm2){
+        String category = comm2[1], permission = comm2[2], name = comm2[3];
+
+        if( !ts.category_existent(category) ){  //category_existent deve retornar true se existir categoria
+
+            System.out.println("Categoria inexistente.");
+
+        }else if( !ts.permission_existent(category) ){ //permission_existent deve retornar true se existir permissão
+
+            System.out.println("Permissão inexistente.");
+
+        }else if( ts.has_employee_in_category(name, category)){  //has_employee_in_category retorna true se existir um empregado com o mesmo nome na mesma categoria
+
+            System.out.println("Funcionário existente.");
+
+        }else{
+
+            System.out.println("Funcionário registado com o identificador " + ts.register_employee(category, permission, name) + "."); //register_employee regista o empregado e retorna o id atribuido a ele pelo sistema
+
+        }
+
+
     }
 
 }
