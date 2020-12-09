@@ -84,8 +84,20 @@ public class main {
             System.out.println("Funcionário registado com o identificador " + ts.register_employee(category, permission, name) + "."); //register_employee regista o empregado e retorna o id atribuido a ele pelo sistema
 
         }
+    }
 
+    static void commandRC(TService ts,Scanner sc,String[] comm2){
+        String name = comm2[1];
 
+        if( ts.has_client(name) ){  //has_client deve retornar true se já existir um cliente com o mesmo nome inserido
+
+            System.out.println("Cliente existente.");
+
+        }else{
+
+            System.out.println("Cliente registado com o identificador " + ts.register_client(name) + "."); //register_client regista o cliente e retorna o id atribuido a ele pelo sistema
+
+        }
     }
 
 }
