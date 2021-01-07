@@ -1,10 +1,14 @@
 package D3.views;
 
+import D3.controllers.TService;
+import D3.controllers.TServiceClass;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class main {
     public static void main(String[] args){
-        TService ts = new TService();
+        TService ts = new TServiceClass();
         Scanner sc = new Scanner(System.in);
 
         while(true){
@@ -50,6 +54,12 @@ public class main {
 
                 case "CF":
                     commandCF(ts, sc, comm2);
+                    break;
+                case "G":
+                    commandG(ts, sc, comm2);
+                    break;
+                case "L":
+                    commandL(ts, sc, comm2);
                     break;
 
                 case "0":
@@ -97,6 +107,22 @@ public class main {
 
             System.out.println("Cliente registado com o identificador " + ts.register_client(name) + "."); //register_client regista o cliente e retorna o id atribuido a ele pelo sistema
 
+        }
+    }
+
+    private static void commandRI(TService ts, Scanner sc, String[] comm2) {
+        String nameClient = comm2[1];
+        String nameItem = comm2[2];
+
+        if( ! ts.has_client(nameClient) ){  //has_client deve retornar true se já existir um cliente com o mesmo nome inserido
+
+            System.out.println("Cliente inexistente.");
+
+        }else{
+            String permissions = sc.nextLine();
+            permissions.split(" ", 8);
+            int ids[] =ts.register_item(nameClient, nameItem, permissions);
+            System.out.println("Item registado para o cliente " + ids[0] + " com o identificador " + ids[1]);
         }
     }
 
