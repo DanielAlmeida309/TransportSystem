@@ -139,5 +139,44 @@ public class main {
         }
     }
 
+    private static void commandRD(TService ts, Scanner sc, String[] comm2) { // incompleted
+        int idClient = Integer.parseInt(comm2[1]);
+        int idLocal = Integer.parseInt(comm2[2]);
+
+        if( ! ts.has_idClient(idClient) ){
+
+            System.out.println("Cliente inexistente.");
+
+        }else if( ! ts.has_idLocal(idLocal) ){
+
+            System.out.println("Local inexistente.");
+
+        }else{
+
+            String employees[] = sc.nextLine().split(" ", 8);
+            String items[][] = new String[0][];
+            String empty[] = new String[0];
+            int i = 0;
+            do{
+                items[i] = sc.nextLine().split(" ", 3);
+                i++;
+            }while(items[i] != empty);
+
+            for(i=0; i<items.length;i++){
+
+                int idItem = Integer.parseInt(items[i][0]);
+
+                if( ! ts.has_idItem(idClient, idItem) ){
+
+                    System.out.println("Item inexistente.");
+                    break;
+                }
+            }
+            for(i=0; i<employees.length;i++){
+
+            }
+
+        }
+    }
 
 }
