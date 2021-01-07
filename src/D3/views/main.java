@@ -114,16 +114,30 @@ public class main {
         String nameClient = comm2[1];
         String nameItem = comm2[2];
 
-        if( ! ts.has_client(nameClient) ){  //has_client deve retornar true se já existir um cliente com o mesmo nome inserido
+        if( ! ts.has_client(nameClient) ){
 
             System.out.println("Cliente inexistente.");
 
         }else{
-            String permissions = sc.nextLine();
-            permissions.split(" ", 8);
+            String permissions[] = sc.nextLine().split(" ", 8);
             int ids[] =ts.register_item(nameClient, nameItem, permissions);
             System.out.println("Item registado para o cliente " + ids[0] + " com o identificador " + ids[1]);
         }
     }
+
+    private static void commandRL(TService ts, Scanner sc, String[] comm2) {
+        String nameLocal = comm2[1];
+
+        if( ts.has_local(nameLocal) ){
+
+            System.out.println("Local existente.");
+
+        }else{
+
+            System.out.println("Local registado com o identificador"+ ts.register_local(nameLocal) +".");
+
+        }
+    }
+
 
 }
