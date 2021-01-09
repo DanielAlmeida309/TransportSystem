@@ -1,6 +1,17 @@
 package D3.controllers;
 
+import D3.models.*;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class TServiceClass implements TService{
+    List<Client> clients = new LinkedList<Client>();
+    List<Employee> employees = new LinkedList<Employee>();
+    List<Local> locals = new LinkedList<Local>();
+
+
+
     @Override
     public boolean category_existent(String category) {
         return false;
