@@ -74,6 +74,9 @@ public class main {
         }
     }
 
+
+
+
     static void commandRF(TService ts,Scanner sc,String[] comm2){
         String category = comm2[1], permission = comm2[2], name = comm2[3];
 
@@ -153,7 +156,7 @@ public class main {
 
         }else{
 
-            String employees[] = sc.nextLine().split(" ", 8);
+            String idEmployees[] = sc.nextLine().split(" ", 8);
             String items[][] = new String[0][];
             String empty[] = new String[0];
             int i = 0;
@@ -172,11 +175,31 @@ public class main {
                     break;
                 }
             }
-            for(i=0; i<employees.length;i++){
+            for(i=1; i<idEmployees.length;i++){
 
+                if( ! ts.has_employee(idEmployees[i]) ){
+
+                    System.out.println("Funcionário inexistente.");
+
+                }
             }
 
         }
     }
+
+
+
+
+
+
+
+    private static void commandL(TService ts, Scanner sc, String[] comm2) { //criar exception caso não consiga abrir file
+        String nameFile = comm2[1];
+
+        if( ts.readFile(nameFile) ){
+            System.out.println("Ficheiro lido com sucesso.");
+        }
+    }
+
 
 }

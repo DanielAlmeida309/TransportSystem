@@ -24,4 +24,6 @@ public interface TService {
     String register_local(String nameLocal);     //register_local regista o local e retorna o id do local
 
     boolean has_idItem(int idClient, int idItem); // has_idItem se o cliente tiver o item com o idItem retorna true senao retorna false
+
+    boolean has_employee(String employee); // has_employee retorna true se já existir empregado senao retorna false
 }
