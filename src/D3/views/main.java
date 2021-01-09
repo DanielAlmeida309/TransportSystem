@@ -75,8 +75,6 @@ public class main {
     }
 
 
-
-
     static void commandRF(TService ts,Scanner sc,String[] comm2){
         String category = comm2[1], permission = comm2[2], name = comm2[3];
 
@@ -190,7 +188,10 @@ public class main {
 
 
 
-
+    private static void commandG(TService ts, Scanner sc, String[] comm2) {
+        String nameFile = comm2[1];
+        ts.saveFile(nameFile);
+    }
 
 
     private static void commandL(TService ts, Scanner sc, String[] comm2) { //criar exception caso não consiga abrir file
