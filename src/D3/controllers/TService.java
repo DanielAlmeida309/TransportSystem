@@ -9,7 +9,7 @@ public interface TService {
 
     String register_employee(String category, String permission, String name);  //register_employee regista o empregado e retorna o id atribuido a ele pelo sistema
 
-    boolean has_client(String name); //has_client deve retornar true se já existir um cliente com o mesmo nome inserido
+    boolean has_client(String name); //has_client deve retornar true se já existir um cliente com o mesmo nome inserido senao retorna false
 
     boolean has_idClient(int idClient);  //has_idclient  deve retornar true se já existir o id do cliente associado a um cliente ou false se nao existir
 

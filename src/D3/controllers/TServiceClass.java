@@ -34,12 +34,17 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_client(String name) {
+        for(Client client : clients){
+            if(client.get_name() == name){
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean has_idClient(int idClient) {
-        return false;
+        return clients.size() >= idClient;
     }
 
     @Override

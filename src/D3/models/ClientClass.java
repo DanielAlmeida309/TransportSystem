@@ -10,6 +10,10 @@ public class ClientClass implements Client{
     private List<Deposit> deposits = new LinkedList<Deposit>();
     private List<Delivery> deliveries = new LinkedList<Delivery>();
 
+    @Override
+    public String get_name() {
+        return this.name;
+    }
 }
 
 
