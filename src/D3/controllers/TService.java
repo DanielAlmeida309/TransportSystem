@@ -1,19 +1,19 @@
 package D3.controllers;
 
 public interface TService {
-    boolean category_existent(String category);
+    boolean category_existent(String category); //category_existent deve retornar true se existir categoria
 
-    boolean permission_existent(String category);
+    boolean permission_existent(String category); //permission_existent deve retornar true se existir permissão
 
-    boolean has_employee_in_category(String name, String category);
+    boolean has_employee_in_category(String name, String category); //has_employee_in_category retorna true se existir um empregado com o mesmo nome na mesma categoria
 
-    String register_employee(String category, String permission, String name);
+    String register_employee(String category, String permission, String name);  //register_employee regista o empregado e retorna o id atribuido a ele pelo sistema
 
     boolean has_client(String name); //has_client deve retornar true se já existir um cliente com o mesmo nome inserido
 
     boolean has_idClient(int idClient);  //has_idclient  deve retornar true se já existir o id do cliente associado a um cliente ou false se nao existir
 
-    String register_client(String name);
+    String register_client(String name); //register_client regista o cliente e retorna o id atribuido a ele pelo sistema
 
     int[] register_item(String nameClient, String nameItem, String[] permissions); //register_item regista o item e retorna o id do cliente e o id do item   -- vetor posiçao 0- id cliente   1- id produto
 

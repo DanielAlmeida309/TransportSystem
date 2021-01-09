@@ -78,21 +78,21 @@ public class main {
     static void commandRF(TService ts,Scanner sc,String[] comm2){
         String category = comm2[1], permission = comm2[2], name = comm2[3];
 
-        if( !ts.category_existent(category) ){  //category_existent deve retornar true se existir categoria
+        if( !ts.category_existent(category) ){
 
             System.out.println("Categoria inexistente.");
 
-        }else if( !ts.permission_existent(category) ){ //permission_existent deve retornar true se existir permissão
+        }else if( !ts.permission_existent(category) ){
 
             System.out.println("Permissão inexistente.");
 
-        }else if( ts.has_employee_in_category(name, category)){  //has_employee_in_category retorna true se existir um empregado com o mesmo nome na mesma categoria
+        }else if( ts.has_employee_in_category(name, category)){
 
             System.out.println("Funcionário existente.");
 
         }else{
 
-            System.out.println("Funcionário registado com o identificador " + ts.register_employee(category, permission, name) + "."); //register_employee regista o empregado e retorna o id atribuido a ele pelo sistema
+            System.out.println("Funcionário registado com o identificador " + ts.register_employee(category, permission, name) + ".");
 
         }
     }
@@ -100,13 +100,13 @@ public class main {
     static void commandRC(TService ts,Scanner sc,String[] comm2){
         String name = comm2[1];
 
-        if( ts.has_client(name) ){  //has_client deve retornar true se já existir um cliente com o mesmo nome inserido
+        if( ts.has_client(name) ){
 
             System.out.println("Cliente existente.");
 
         }else{
 
-            System.out.println("Cliente registado com o identificador " + ts.register_client(name) + "."); //register_client regista o cliente e retorna o id atribuido a ele pelo sistema
+            System.out.println("Cliente registado com o identificador " + ts.register_client(name) + ".");
 
         }
     }
@@ -173,6 +173,7 @@ public class main {
                     break;
                 }
             }
+
             for(i=1; i<idEmployees.length;i++){
 
                 if( ! ts.has_employee(idEmployees[i]) ){
