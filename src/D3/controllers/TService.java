@@ -45,5 +45,13 @@ public interface TService {
 
     String register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items); //register_delivery vai registar a entrega no cliente e retorna o id atribuido da entrega
 
-    String[] info_client(int idClient); // retorna toda a info do cliente (ver comando CC)
+    String[] info_client(int idClient); // info_client retorna toda a info do cliente (ver comando CC)
+
+    boolean has_item_client(int idClient, int idItem); // has_item_client verifica se o cliente tem o item se sim retorna true senao retorna false
+
+    String[] info_item(int idClient, int idItem); // info_item retorna toda a info do item (ver comando CI)
+
+    boolean has_delivery_client(int idClient, int idDelivery); // has_delivery_client verifica se o cliente tem a entrega se sim retorna true senao retorna false
+
+    String[] info_delivery(int idClient, int idDelivery); // info_delivery retorna toda a info da entrega (ver comando CE)
 }

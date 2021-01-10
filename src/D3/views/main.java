@@ -74,6 +74,7 @@ public class main {
         }
     }
 
+
     static void commandRF(TService ts,Scanner sc,String[] comm2){
         String category = comm2[1], permission = comm2[2], name = comm2[3];
 
@@ -250,6 +251,51 @@ public class main {
         }
     }
 
+    private static void commandCI(TService ts, Scanner sc, String[] comm2) {
+        int idClient = Integer.parseInt(comm2[1]);
+        int idItem = Integer.parseInt(comm2[2]);
+
+        if( ! ts.has_idClient(idClient) ){
+
+            System.out.println("Cliente inexistente.");
+
+        }else if( ! ts.has_item_client(idClient, idItem) ){
+
+            System.out.println("Cliente inexistente.");
+
+        }else{
+
+            String info[] = ts.info_item(idClient, idItem);
+            for(int i=0; i< info.length; i++){
+                System.out.println(info[i]);
+            }
+
+        }
+
+    }
+
+    private static void commandCE(TService ts, Scanner sc, String[] comm2) {
+        int idClient = Integer.parseInt(comm2[1]);
+        int idDelivery = Integer.parseInt(comm2[2]);
+
+        if( ! ts.has_idClient(idClient) ){
+
+            System.out.println("Cliente inexistente.");
+
+        }else if( ! ts.has_delivery_client(idClient, idDelivery) ){
+
+            System.out.println("Entrega inexistente.");
+
+        }else{
+
+            String info[] = ts.info_delivery(idClient, idDelivery);
+            for(int i=0; i< info.length; i++){
+                System.out.println(info[i]);
+            }
+
+        }
+
+    }
 
     private static void commandG(TService ts, Scanner sc, String[] comm2) {
         String nameFile = comm2[1];
