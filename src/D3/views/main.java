@@ -294,6 +294,21 @@ public class main {
             }
 
         }
+    }
+
+    private static void commandCF(TService ts, Scanner sc, String[] comm2) {
+        int idEmployee = Integer.parseInt(comm2[1]);
+
+        if( ! ts.has_employee(idEmployee) ){
+
+            System.out.println("Funcionário inexistente.");
+
+        }else{
+            String info[] = ts.info_employee(idEmployee);
+            for(int i=0; i< info.length; i++){
+                System.out.println(info[i]);
+            }
+        }
 
     }
 

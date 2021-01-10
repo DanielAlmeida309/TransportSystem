@@ -25,7 +25,7 @@ public interface TService {
 
     boolean has_idItem(int idClient, int idItem); // has_idItem se o cliente tiver o item com o idItem retorna true senao retorna false
 
-    boolean has_employee(String employee); // has_employee retorna true se já existir empregado senao retorna false
+    boolean has_employee(int employee); // has_employee retorna true se já existir empregado senao retorna false
 
     boolean readFile(String nameFile);
 
@@ -53,5 +53,8 @@ public interface TService {
 
     boolean has_delivery_client(int idClient, int idDelivery); // has_delivery_client verifica se o cliente tem a entrega se sim retorna true senao retorna false
 
-    String[] info_delivery(int idClient, int idDelivery); // info_delivery retorna toda a info da entrega (ver comando CE)
+    String[] info_delivery(int idClient, int idDelivery); // info_delivery retorna toda a info da entrega (ver comando CI)
+
+    String[] info_employee(int idEmployee); // info_employee retorna toda a info do empregado (ver comando CE)
+
 }
