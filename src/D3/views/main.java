@@ -156,33 +156,33 @@ public class main {
 
             String idEmployees[] = sc.nextLine().split(" ", 8);
             String items[][] = new String[0][];
-            String empty[] = new String[0];
             int i = 0;
             do{
                 items[i] = sc.nextLine().split(" ", 3);
                 i++;
-            }while(items[i] != empty);
+            }while(items.length != 0);
 
-            for(i=0; i<items.length;i++){
+            if( ts.has_items(idClient, items) ){
 
-                int idItem = Integer.parseInt(items[i][0]);
+                System.out.println("Item inexistente.");
 
-                if( ! ts.has_idItem(idClient, idItem) ){
+            }else if ( ! ts.has_emplyees(idEmployees) ){
 
-                    System.out.println("Item inexistente.");
-                    break;
-                }
+                System.out.println("Funcionário inexistente.");
+
+            }else if ( ! ts.drive_have_permission(idEmployees, items) ){
+
+                System.out.println("Condutor sem permissões.");
+
+            }else if ( ! ts.loaders_have_permissions(idEmployees, items) ){
+
+                System.out.println("Carregador sem permissões.");
+
+            }else{
+
+                System.out.println("Depósito registado com o identificador "+ ts.register_deposit(idClient, idLocal, idEmployees, items) +".");
+
             }
-
-            for(i=1; i<idEmployees.length;i++){
-
-                if( ! ts.has_employee(idEmployees[i]) ){
-
-                    System.out.println("Funcionário inexistente.");
-
-                }
-            }
-
         }
     }
 

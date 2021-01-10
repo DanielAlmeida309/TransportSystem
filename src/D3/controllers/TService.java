@@ -30,4 +30,14 @@ public interface TService {
     boolean readFile(String nameFile);
 
     void saveFile(String nameFile);
+
+    boolean has_items(int idClient, String[][] items); // has_items recebe uma matriz de items (idItem, Quantidade), verificar cada item se já existe esse item registado, se existir retornar true logo, se nenhum existir retornar false
+
+    boolean has_emplyees(String[] idEmployees); // has_emplyees recebe um vetor de id de empregados, verificar se todos os ids existem caso não existe um retorna false se existir retorna true
+
+    boolean drive_have_permission(String[] idEmployees, String[][] items); // drive_have_permission vai verificar as permissoes dos items e depois verifica qual é o empregado da lista de empregados que é o condutor e verifica se este tem as devidas permissões para transpostar os items, caso tenha retorna true, caso nao tenha retorna false
+
+    boolean loaders_have_permissions(String[] idEmployees, String[][] items); // loaders_have_permissions vai verificar as permissoes dos items e depois verifica quais são os empregados da lista de empregados que são os carregadores e verifica se este tem as devidas permissões para carregar os items, caso tenha retorna true, caso nao tenha retorna false
+
+    String register_deposit(int idClient, int idLocal, String[] idEmployees, String[][] items); //register_deposit vai registar o deposito no cliente e retorna o id atribuido ao depósito
 }
