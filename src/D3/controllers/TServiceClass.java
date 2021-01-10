@@ -78,7 +78,7 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public boolean has_employee(String employee) {
+    public boolean has_employee(int employee) {
         return false;
     }
 
@@ -90,5 +90,70 @@ public class TServiceClass implements TService{
     @Override
     public void saveFile(String nameFile) {
 
+    }
+
+    @Override
+    public boolean has_items(int idClient, String[][] items) {
+        return false;
+    }
+
+    @Override
+    public boolean has_emplyees(String[] idEmployees) {
+        return false;
+    }
+
+    @Override
+    public boolean drive_have_permission(String[] idEmployees, String[][] items) {
+        return false;
+    }
+
+    @Override
+    public boolean loaders_have_permissions(String[] idEmployees, String[][] items) {
+        return false;
+    }
+
+    @Override
+    public String register_deposit(int idClient, int idLocal, String[] idEmployees, String[][] items) {
+        return null;
+    }
+
+    @Override
+    public boolean have_quant_items(int idClient, String[][] items) {
+        return false;
+    }
+
+    @Override
+    public String register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items) {
+        return null;
+    }
+
+    @Override
+    public String[] info_client(int idClient) {
+        return new String[0];
+    }
+
+    @Override
+    public boolean has_item_client(int idClient, int idItem) {
+        return false;
+    }
+
+    @Override
+    public String[] info_item(int idClient, int idItem) {
+        return new String[0];
+    }
+
+    @Override
+    public boolean has_delivery_client(int idClient, int idDelivery) {
+        return false;
+    }
+
+    @Override
+    public String[] info_delivery(int idClient, int idDelivery) {
+        return new String[0];
+    }
+
+    @Override
+    public String[] info_employee(int idEmployee) {
+        return new String[0];
     }
 }
