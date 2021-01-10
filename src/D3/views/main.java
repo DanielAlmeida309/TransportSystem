@@ -140,7 +140,7 @@ public class main {
         }
     }
 
-    private static void commandRD(TService ts, Scanner sc, String[] comm2) { // incompleted
+    private static void commandRD(TService ts, Scanner sc, String[] comm2) {
         int idClient = Integer.parseInt(comm2[1]);
         int idLocal = Integer.parseInt(comm2[2]);
 
@@ -186,6 +186,55 @@ public class main {
         }
     }
 
+    private static void commandRE(TService ts, Scanner sc, String[] comm2) {
+        int idClient = Integer.parseInt(comm2[1]);
+        int idLocal = Integer.parseInt(comm2[2]);
+
+        if( ! ts.has_idClient(idClient) ){
+
+            System.out.println("Cliente inexistente.");
+
+        }else if( ! ts.has_idLocal(idLocal) ){
+
+            System.out.println("Local inexistente.");
+
+        }else{
+
+            String idEmployees[] = sc.nextLine().split(" ", 8);
+            String items[][] = new String[0][];
+            int i = 0;
+            do{
+                items[i] = sc.nextLine().split(" ", 3);
+                i++;
+            }while(items.length != 0);
+
+            if( ts.has_items(idClient, items) ) {
+
+                System.out.println("Item inexistente.");
+
+            }else if( ! ts.have_quant_items(idClient, items)){
+
+                System.out.println("Quantidade insuficiente.");
+
+            }else if ( ! ts.has_emplyees(idEmployees) ){
+
+                System.out.println("Funcionário inexistente.");
+
+            }else if ( ! ts.drive_have_permission(idEmployees, items) ){
+
+                System.out.println("Condutor sem permissões.");
+
+            }else if ( ! ts.loaders_have_permissions(idEmployees, items) ){
+
+                System.out.println("Carregador sem permissões.");
+
+            }else{
+
+                System.out.println("Entrega registada o identificador "+ ts.register_delivery(idClient, idLocal, idEmployees, items) +".");
+
+            }
+        }
+    }
 
 
 
