@@ -44,4 +44,6 @@ public interface TService {
     boolean have_quant_items(int idClient, String[][] items); // have_quant_items se no deposito existir toda a quantidade de items retorna true senao retorna false
 
     String register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items); //register_delivery vai registar a entrega no cliente e retorna o id atribuido da entrega
+
+    String[] info_client(int idClient); // retorna toda a info do cliente (ver comando CC)
 }

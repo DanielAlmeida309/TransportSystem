@@ -74,7 +74,6 @@ public class main {
         }
     }
 
-
     static void commandRF(TService ts,Scanner sc,String[] comm2){
         String category = comm2[1], permission = comm2[2], name = comm2[3];
 
@@ -236,6 +235,20 @@ public class main {
         }
     }
 
+    private static void commandCC(TService ts, Scanner sc, String[] comm2) {
+        int idClient = Integer.parseInt(comm2[1]);
+
+        if( ! ts.has_idClient(idClient) ){
+
+            System.out.println("Cliente inexistente.");
+
+        }else{
+            String info[] = ts.info_client(idClient);
+            for(int i=0; i< info.length; i++){
+                System.out.println(info[i]);
+            }
+        }
+    }
 
 
     private static void commandG(TService ts, Scanner sc, String[] comm2) {
