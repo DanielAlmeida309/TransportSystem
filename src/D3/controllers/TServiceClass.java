@@ -169,4 +169,9 @@ public class TServiceClass implements TService{
     public String[] info_employee(int idEmployee) {
         return new String[0];
     }
+
+    @Override
+    public boolean isManager(int idEmployee) {
+        return this.employees.get(idEmployee - 1) instanceof ManagerClass; 
+    }
 }
