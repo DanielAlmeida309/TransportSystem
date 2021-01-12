@@ -4,6 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class EmployeeClass implements Employee {
-    private String name;
-    private List<String> permissions = new LinkedList<String>();
+    protected String name;
+    protected List<String> permissions = new LinkedList<String>();
 }
