@@ -98,15 +98,22 @@ public class main {
     }
 
     static void commandRC(TService ts,Scanner sc,String[] comm2){
-        String name = comm2[1];
+        String name = comm2[2];
+        int idEmployee = Integer.parseInt(comm2[1]);
 
-        if( ts.has_client(name) ){
+        if (!ts.has_employee(idEmployee)) {
+            System.out.println("Funcionario inexistente.");
+        }
+        else if (!ts.isManager(idEmployee)) {
+            System.out.println("Funcionario incorreto.");
+        }
+        else if( ts.has_client(name) ){
 
             System.out.println("Cliente existente.");
 
         }else{
 
-            System.out.println("Cliente registado com o identificador " + ts.register_client(name) + ".");
+            System.out.println("Cliente registado com o identificador " + ts.register_client(name, idEmployee) + ".");
 
         }
     }
