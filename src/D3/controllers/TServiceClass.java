@@ -81,8 +81,10 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String register_local(String nameLocal) {
-        return null;
+    public int register_local(String nameLocal) {
+        Local newLocal = new LocalClass(nameLocal);
+        this.locals.add(newLocal);
+        return this.locals.size();
     }
 
     @Override

@@ -21,7 +21,7 @@ public interface TService {
 
     boolean has_idLocal(int idLocal); //has_idLocal  deve retornar true se já existir o id do local associado a um local ou false se nao existir
 
-    String register_local(String nameLocal);     //register_local regista o local e retorna o id do local
+    int register_local(String nameLocal);     //register_local regista o local e retorna o id do local
 
     boolean has_idItem(int idClient, int idItem); // has_idItem se o cliente tiver o item com o idItem retorna true senao retorna false
 
