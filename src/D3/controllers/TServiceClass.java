@@ -28,8 +28,19 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String register_employee(String category, String permission, String name) {
-        return null;
+    public int register_employee(String category, String permission, String name) {
+        Employee newEmployee;
+        if (category == "Condutor") {
+            newEmployee = new DriverClass(name, permission);
+        }
+        else if (category == "Carregador") {
+            newEmployee = new LoaderClass(name, permission);
+        }
+        else if (category == "Gestor") {
+            newEmployee = new ManagerClass(name, permission);
+        }
+        this.employees.add(newEmployee);
+        return this.employees.size();
     }
 
     @Override

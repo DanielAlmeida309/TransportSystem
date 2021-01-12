@@ -7,7 +7,7 @@ public interface TService {
 
     boolean has_employee_in_category(String name, String category); //has_employee_in_category retorna true se existir um empregado com o mesmo nome na mesma categoria
 
-    String register_employee(String category, String permission, String name);  //register_employee regista o empregado e retorna o id atribuido a ele pelo sistema
+    int register_employee(String category, String permission, String name);  //register_employee regista o empregado e retorna o id atribuido a ele pelo sistema
 
     boolean has_client(String name); //has_client deve retornar true se já existir um cliente com o mesmo nome inserido senao retorna false
 
