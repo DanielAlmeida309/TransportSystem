@@ -25,7 +25,7 @@ public interface TService {
 
     boolean has_idItem(int idClient, int idItem); // has_idItem se o cliente tiver o item com o idItem retorna true senao retorna false
 
-    boolean has_employee(int employee); // has_employee retorna true se já existir empregado senao retorna false
+    boolean has_employee(int idEmployee); // has_employee retorna true se já existir empregado senao retorna false
 
     boolean readFile(String nameFile);
 

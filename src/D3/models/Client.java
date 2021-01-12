@@ -1,6 +1,12 @@
 package D3.models;
 
+import java.util.List;
+
 public interface Client {
 
     String get_name();  // retorna nome do cliente
+
+    List<Item> get_inventory();
+
+
 }

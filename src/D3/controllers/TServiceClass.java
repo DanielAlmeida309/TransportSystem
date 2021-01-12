@@ -24,6 +24,19 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_employee_in_category(String name, String category) {
+        for( Employee atual_employee : employees){
+            if(atual_employee.get_name()==name){
+                if (category == "Condutor" && atual_employee instanceof Driver) {
+                    return true;
+                }
+                else if (category == "Carregador" && atual_employee instanceof Loader) {
+                    return true;
+                }
+                else if (category == "Gestor" && atual_employee instanceof Manager) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -93,8 +106,8 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public boolean has_employee(int employee) {
-        return false;
+    public boolean has_employee(int idEmployee) {
+        return employees.size() >= idEmployee;
     }
 
     @Override
@@ -109,7 +122,16 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_items(int idClient, String[][] items) {
-        return false;
+        Client atual_client = clients.get(idClient - 1);
+        int tam_inventory = atual_client.get_inventory().size();
+        for(int i=0; i<items.length; i++){
+            int idItem = Integer.parseInt(items[i][1]);
+            if(! (idItem <= tam_inventory) ){
+               return false;
+            }
+        }
+        return true;
+
     }
 
     @Override
@@ -134,7 +156,17 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean have_quant_items(int idClient, String[][] items) {
-        return false;
+        Client atual_client = clients.get(idClient - 1);
+        List<Item> inventory = atual_client.get_inventory();
+        for(int i=0; i<items.length; i++){
+            int quantItem = Integer.parseInt(items[i][2]);
+            int codItem = Integer.parseInt(items[i][1]);
+            int quantity = inventory.get(codItem).get_quantity();
+            if( quantItem <= quantity ){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
