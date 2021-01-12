@@ -59,8 +59,10 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String register_client(String name) {
-        return null;
+    public int register_client(String name, int idEmployee) {
+        Client newClient = new ClientClass(name, idEmployee);
+        this.clients.add(newClient);
+        return this.clients.size();
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface TService {
 
     boolean has_idClient(int idClient);  //has_idclient  deve retornar true se já existir o id do cliente associado a um cliente ou false se nao existir
 
-    String register_client(String name); //register_client regista o cliente e retorna o id atribuido a ele pelo sistema
+    int register_client(String name, int idEmployee); //register_client regista o cliente e retorna o id atribuido a ele pelo sistema
 
     int[] register_item(String nameClient, String nameItem, String[] permissions); //register_item regista o item e retorna o id do cliente e o id do item   -- vetor posiçao 0- id cliente   1- id produto
 
@@ -57,4 +57,5 @@ public interface TService {
 
     String[] info_employee(int idEmployee); // info_employee retorna toda a info do empregado (ver comando CE)
 
+    boolean isManager(int idEmployee); // isManager retorna true se o funcionario for manager
 }
