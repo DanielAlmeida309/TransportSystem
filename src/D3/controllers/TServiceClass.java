@@ -111,7 +111,7 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_idItem(int idClient, int idItem) {
-        return false;
+        return this.clients.get(idClient).get_inventory().size() >= idItem;
     }
 
     @Override
