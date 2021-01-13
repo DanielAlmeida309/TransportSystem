@@ -99,7 +99,7 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_idLocal(int idLocal) {
-        return false;
+        return this.locals.size() >= idLocal;
     }
 
     @Override
