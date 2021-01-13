@@ -252,10 +252,22 @@ public class main {
             System.out.println("Cliente inexistente.");
 
         }else{
-            String info[] = ts.info_client(idClient);
-            for(int i=0; i< info.length; i++){
-                System.out.println(info[i]);
+
+            System.out.println(ts.get_nameClient(idClient));
+            System.out.println(ts.get_nameManager(idClient));
+            System.out.println("Items:");
+            for(String text : ts.info_itens(idClient)){
+                System.out.println("  "+text);
             }
+            System.out.println("Depósitos:");
+            for(String text : ts.info_deposits(idClient)){
+                System.out.println("  "+text);
+            }
+            System.out.println("Entregas:");
+            for(String text : ts.info_deliveries(idClient)){
+                System.out.println("  "+text);
+            }
+
         }
     }
 
@@ -273,9 +285,14 @@ public class main {
 
         }else{
 
-            String info[] = ts.info_item(idClient, idItem);
-            for(int i=0; i< info.length; i++){
-                System.out.println(info[i]);
+            System.out.println(ts.info_item(idClient, idItem));
+            System.out.println("Depósitos:");
+            for(String text : ts.info_deposits(idClient)){
+                System.out.println("  "+text);
+            }
+            System.out.println("Entregas:");
+            for(String text : ts.info_deliveries(idClient)){
+                System.out.println("  "+text);
             }
 
         }
@@ -312,9 +329,18 @@ public class main {
             System.out.println("Funcionário inexistente.");
 
         }else{
-            String info[] = ts.info_employee(idEmployee);
-            for(int i=0; i< info.length; i++){
-                System.out.println(info[i]);
+
+            System.out.println(ts.get_nameEmployee(idEmployee));
+            System.out.println(ts.get_categoryEmployee(idEmployee));
+            System.out.println(ts.get_permissionEmployee(idEmployee));
+
+            System.out.println("Depósitos:");
+            for(String text : ts.info_depositsE(idEmployee)){
+                System.out.println("  "+text);
+            }
+            System.out.println("Entregas:");
+            for(String text : ts.info_deliveriesE(idEmployee)){
+                System.out.println("  "+text);
             }
         }
 

@@ -47,17 +47,33 @@ public interface TService {
 
     String register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items); //register_delivery vai registar a entrega no cliente e retorna o id atribuido da entrega
 
-    String[] info_client(int idClient); // info_client retorna toda a info do cliente (ver comando CC)
-
     boolean has_item_client(int idClient, int idItem); // has_item_client verifica se o cliente tem o item se sim retorna true senao retorna false
-
-    String[] info_item(int idClient, int idItem); // info_item retorna toda a info do item (ver comando CI)
 
     boolean has_delivery_client(int idClient, int idDelivery); // has_delivery_client verifica se o cliente tem a entrega se sim retorna true senao retorna false
 
-    List<String> info_delivery(int idClient, int idDelivery); // info_delivery retorna toda a info da entrega (ver comando CI)
-
-    String[] info_employee(int idEmployee); // info_employee retorna toda a info do empregado (ver comando CE)
-
     boolean isManager(int idEmployee); // isManager retorna true se o funcionario for manager
+
+    String get_nameClient(int idClient); //commandCC
+
+    String get_nameManager(int idClient); //commandCC
+
+    String[] info_itens(int idClient); //commandCC
+
+    String[] info_deposits(int idClient); //commandCC & commandCI
+
+    String[] info_deliveries(int idClient); //commandCC & commandCI
+
+    String[] info_item(int idClient, int idItem); //commandCI
+
+    List<String> info_delivery(int idClient, int idDelivery); //commandCE
+
+    String get_nameEmployee(int idEmployee);
+
+    String get_categoryEmployee(int idEmployee);
+
+    String get_permissionEmployee(int idEmployee);
+
+    String[] info_depositsE(int idEmployee);
+
+    String[] info_deliveriesE(int idEmployee);
 }

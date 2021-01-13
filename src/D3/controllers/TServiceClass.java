@@ -177,18 +177,8 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String[] info_client(int idClient) {
-        return new String[0];
-    }
-
-    @Override
     public boolean has_item_client(int idClient, int idItem) {
         return false;
-    }
-
-    @Override
-    public String[] info_item(int idClient, int idItem) {
-        return new String[0];
     }
 
     @Override
@@ -220,11 +210,6 @@ public class TServiceClass implements TService{
 
 
         return stringList;
-    }
-
-    @Override
-    public String[] info_employee(int idEmployee) {
-        return new String[0];
     }
 
     @Override
