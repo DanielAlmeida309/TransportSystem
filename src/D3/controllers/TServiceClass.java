@@ -204,7 +204,7 @@ public class TServiceClass implements TService{
 
         List<Item> itemList = delivery.getItems();
         for(Item item: itemList) {
-            int identificarItem = this.clients.get(idClient).get_inventory().indexOf(item);
+            int identificarItem = this.clients.get(idClient).get_inventory().indexOf(item) + 1;
             stringList.add("" + identificarItem + " " + item.get_quantity() + " " + item.getName());
         }
 
