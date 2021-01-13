@@ -213,7 +213,62 @@ public class TServiceClass implements TService{
     }
 
     @Override
+    public String get_nameEmployee(int idEmployee) {
+        return null;
+    }
+
+    @Override
+    public String get_categoryEmployee(int idEmployee) {
+        return null;
+    }
+
+    @Override
+    public String get_permissionEmployee(int idEmployee) {
+        return null;
+    }
+
+    @Override
+    public String[] info_depositsE(int idEmployee) {
+        return new String[0];
+    }
+
+    @Override
+    public String[] info_deliveriesE(int idEmployee) {
+        return new String[0];
+    }
+
+    @Override
     public boolean isManager(int idEmployee) {
         return this.employees.get(idEmployee - 1) instanceof ManagerClass; 
+    }
+
+    @Override
+    public String get_nameClient(int idClient) {
+        return null;
+    }
+
+    @Override
+    public String get_nameManager(int idClient) {
+        return null;
+    }
+
+    @Override
+    public String[] info_itens(int idClient) {
+        return new String[0];
+    }
+
+    @Override
+    public String[] info_deposits(int idClient) {
+        return new String[0];
+    }
+
+    @Override
+    public String[] info_deliveries(int idClient) {
+        return new String[0];
+    }
+
+    @Override
+    public String[] info_item(int idClient, int idItem) {
+        return new String[0];
     }
 }
