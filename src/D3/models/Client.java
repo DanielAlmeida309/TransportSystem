@@ -9,4 +9,5 @@ public interface Client {
     List<Item> get_inventory();
 
 
+    Delivery getDelivery(int idDelivery);
 }

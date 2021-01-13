@@ -1,5 +1,7 @@
 package D3.controllers;
 
+import java.util.List;
+
 public interface TService {
     boolean category_existent(String category); //category_existent deve retornar true se existir categoria
 
@@ -53,7 +55,7 @@ public interface TService {
 
     boolean has_delivery_client(int idClient, int idDelivery); // has_delivery_client verifica se o cliente tem a entrega se sim retorna true senao retorna false
 
-    String[] info_delivery(int idClient, int idDelivery); // info_delivery retorna toda a info da entrega (ver comando CI)
+    List<String> info_delivery(int idClient, int idDelivery); // info_delivery retorna toda a info da entrega (ver comando CI)
 
     String[] info_employee(int idEmployee); // info_employee retorna toda a info do empregado (ver comando CE)
 

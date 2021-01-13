@@ -197,8 +197,29 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String[] info_delivery(int idClient, int idDelivery) {
-        return new String[0];
+    public List<String> info_delivery(int idClient, int idDelivery) {
+        Delivery delivery = this.clients.get(idClient - 1).getDelivery(idDelivery);
+        List<String> stringList = new LinkedList<String>();
+
+        String localName = this.locals.get(delivery.getIdLocal()).getName();
+        String driverInfo = "" + delivery.getDriver().getPermissions() + " " + delivery.getDriver().get_name();
+
+        stringList.add(localName);
+        stringList.add(driverInfo);
+
+        List<Loader> listLoader = delivery.getLoaders();
+        for(Loader loader: listLoader) {
+            stringList.add("" + loader.getPermissions() + " " + loader.get_name());
+        }
+
+        List<Item> itemList = delivery.getItems();
+        for(Item item: itemList) {
+            int identificarItem = this.clients.get(idClient).get_inventory().indexOf(item);
+            stringList.add("" + identificarItem + " " + item.get_quantity() + " " + item.getName());
+        }
+
+
+        return stringList;
     }
 
     @Override

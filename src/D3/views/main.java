@@ -4,6 +4,7 @@ import D3.controllers.TService;
 import D3.controllers.TServiceClass;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class main {
@@ -295,9 +296,9 @@ public class main {
 
         }else{
 
-            String info[] = ts.info_delivery(idClient, idDelivery);
-            for(int i=0; i< info.length; i++){
-                System.out.println(info[i]);
+            List<String> info = ts.info_delivery(idClient, idDelivery);
+            for(int i=0; i< info.size(); i++){
+                System.out.println(info.get(i));
             }
 
         }
