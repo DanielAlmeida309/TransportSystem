@@ -14,7 +14,9 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean category_existent(String category) {
-        return false;
+        return category.equals("Condutor") ||
+                category.equals("Carregador") ||
+                category.equals("Gestor");
     }
 
     @Override
