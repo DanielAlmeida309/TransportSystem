@@ -89,6 +89,11 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_local(String nameLocal) {
+        for(Local local: this.locals) {
+            if(local.getName().equals(nameLocal)) {
+                return true;
+            }
+        }
         return false;
     }
 
