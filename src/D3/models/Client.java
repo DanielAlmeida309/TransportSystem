@@ -10,4 +10,6 @@ public interface Client {
 
 
     Delivery getDelivery(int idDelivery);
+
+    int getIdManager();
 }

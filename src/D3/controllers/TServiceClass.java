@@ -251,12 +251,13 @@ public class TServiceClass implements TService{
 
     @Override
     public String get_nameClient(int idClient) {
-        return null;
+        return this.clients.get(idClient).get_name();
     }
 
     @Override
     public String get_nameManager(int idClient) {
-        return null;
+        int idManager =  this.clients.get(idClient).getIdManager();
+        return this.employees.get(idManager).get_name();
     }
 
     @Override
