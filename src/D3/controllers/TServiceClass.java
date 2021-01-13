@@ -14,6 +14,9 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean category_existent(String category) {
+        if(category.get_name()==category) {
+            return true;
+        }
         return false;
     }
 
@@ -82,17 +85,26 @@ public class TServiceClass implements TService{
 
     @Override
     public int[] register_item(String nameClient, String nameItem, String[] permissions) {
+        item newItem = new ItemClass(nameClient, nameItem);
+        this.items.add(newItem);
         return new int[0];
     }
 
     @Override
-    public boolean has_local(String nameLocal) {
-        return false;
+    public boolean has_local(String[][], nameLocal) {
+        local atual_local = locals.get(idLocal);
+        int tam_locals = atual_local.get_locals().size();
+        for(int i=0;i<locals.length; i++){
+            int idlocal = Integer.parseInt(nameLocal[i][1]);
+            if(! (idlocal <= tam_locals) ){
+                return false;
+        }
+        return true;
     }
 
     @Override
     public boolean has_idLocal(int idLocal) {
-        return false;
+            return clients.size() >= idClient;
     }
 
     @Override
@@ -137,8 +149,16 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public boolean has_emplyees(String[] idEmployees) {
-        return false;
+    public boolean has_emplyees(String[][] idEmployees) {
+        employee atual_employee = employees.get(idEmployee -1);
+        int tam_employees = atual_employee.get_idEmployees().size();
+        for(int i=0; i<employees.lenght; i++){
+            int idEmployees = Integer.parseInt(employees[i][1]);
+            if(! (idEmployees <= tam_employees) ){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -182,9 +202,25 @@ public class TServiceClass implements TService{
     }
 
     @Override
+<<<<<<< Updated upstream
     public boolean has_delivery_client(int idClient, int idDelivery) {
         return false;
     }
+=======
+    public boolean has_item_client(int idClient, int idItem) {
+            Client atual_client = clients.get(idClient - 1);
+            list<Item> inventory = atual_client.get_inventory();
+            for(int i=0; i<Item().lenght; i++){
+                int quantItem = Integer.parseInt(Item[i][2])
+                int codItem = Integer.parseInt(Item[i][1]);
+                int quantity = inventory.get(idItem).get_item();
+                if (quantItem <= quantity){
+                    return false;
+                }
+            }
+            return false;
+        }
+>>>>>>> Stashed changes
 
     @Override
     public List<String> info_delivery(int idClient, int idDelivery) {
@@ -213,6 +249,7 @@ public class TServiceClass implements TService{
     }
 
     @Override
+<<<<<<< Updated upstream
     public String get_nameEmployee(int idEmployee) {
         return null;
     }
@@ -225,6 +262,20 @@ public class TServiceClass implements TService{
     @Override
     public String get_permissionEmployee(int idEmployee) {
         return null;
+=======
+    public boolean has_delivery_client(int idClient, string[], int idDelivery){
+        Client atual_client = clients.get(idClient - 1);
+        List<delivery> inventory = atual_client.get_inventory();
+        for(int i=0; i< delivery().length; i++){
+            int quantDelivery = Integer.parseInt(delivery[i][2]);
+            int codDelivery = Integer.parseInt(delivery[i][1]);
+            int quantity = inventory.get(idDelivery).get_delivery();
+            if( quantDelivery <= quantity ){
+                return false;
+            }
+        }
+        return true;
+>>>>>>> Stashed changes
     }
 
     @Override
