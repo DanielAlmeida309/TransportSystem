@@ -221,12 +221,20 @@ public class TServiceClass implements TService{
 
     @Override
     public String get_nameEmployee(int idEmployee) {
-        return null;
+        return this.employees.get(idEmployee).get_name();
     }
 
     @Override
     public String get_categoryEmployee(int idEmployee) {
-        return null;
+        if (this.employees.get(idEmployee) instanceof Driver) {
+            return "Condutor";
+        }
+        else if (this.employees.get(idEmployee) instanceof Loader) {
+            return "Carregador";
+        }
+        else if (this.employees.get(idEmployee) instanceof Manager) {
+            return "Gestor";
+        }
     }
 
     @Override
