@@ -269,8 +269,12 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String[] info_itens(int idClient) {
-        return new String[0];
+    public List<String> info_itens(int idClient) {
+        List<String> strList = new LinkedList<String>();
+        for(int i = 0; i < this.clients.get(idClient).get_inventory().size(); i++) {
+            strList.add(this.info_item(idClient,i + 1 ));
+        }
+        return strList;
     }
 
     @Override

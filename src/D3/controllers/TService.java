@@ -57,7 +57,7 @@ public interface TService {
 
     String get_nameManager(int idClient); //commandCC
 
-    String[] info_itens(int idClient); //commandCC
+    List<String> info_itens(int idClient); //commandCC
 
     String[] info_deposits(int idClient); //commandCC & commandCI
 
