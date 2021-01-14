@@ -276,7 +276,10 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String[] info_item(int idClient, int idItem) {
-        return new String[0];
+    public String info_item(int idClient, int idItem) {
+        Item item = this.clients.get(idClient).get_inventory().get(idItem);
+        String permissions = String.join(", ", item.getPermissions());
+        String str = "" + item.get_quantity() + " " + permissions + " " + item.getName();
+        return str;
     }
 }

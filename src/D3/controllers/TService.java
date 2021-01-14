@@ -63,7 +63,7 @@ public interface TService {
 
     String[] info_deliveries(int idClient); //commandCC & commandCI
 
-    String[] info_item(int idClient, int idItem); //commandCI
+    String info_item(int idClient, int idItem); //commandCI
 
     List<String> info_delivery(int idClient, int idDelivery); //commandCE
 
