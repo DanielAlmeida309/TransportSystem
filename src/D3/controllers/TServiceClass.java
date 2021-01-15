@@ -91,7 +91,7 @@ public class TServiceClass implements TService, Serializable {
                 List<Item> inventory = clients.get(i).get_inventory();
                 Item newItem = new ItemClass(nameItem, permissions);
                 inventory.add(newItem);
-                int[] ids = new int[0]; ids[0]= i; ids[i] = inventory.size();
+                int[] ids = new int[2]; ids[0]= i+1; ids[1] = inventory.size();
                 return ids;
             }
         }
@@ -388,10 +388,11 @@ public class TServiceClass implements TService, Serializable {
         List<String> permissions = new LinkedList<String>();
         Employee employee = employees.get(idEmployee-1);
         for( String permission : employee.getPermissions()){
-            permissions.add(permission);
+            if(permission.equals("N")) permissions.add("Normal");
+            else if (permission.equals("S")) permissions.add("Seguro");
+            else if (permission.equals("P")) permissions.add("Perigoso");
         }
         return permissions;
-
     }
 
     @Override
@@ -458,7 +459,7 @@ public class TServiceClass implements TService, Serializable {
     public List<String> info_itens(int idClient) {
         List<String> strList = new LinkedList<String>();
         for(int i = 0; i < this.clients.get(idClient-1).get_inventory().size(); i++) {
-            strList.add(this.info_item(idClient,i + 1 ));
+            strList.add(this.info_item2(idClient,i + 1 ));
         }
         return strList;
     }
@@ -527,9 +528,26 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public String info_item(int idClient, int idItem) {
-        Item item = this.clients.get(idClient).get_inventory().get(idItem);
-        String permissions = String.join(", ", item.getPermissions());
-        String str = "" + item.get_quantity() + " " + permissions + " " + item.get_name();
+        Item item = this.clients.get(idClient-1).get_inventory().get(idItem-1);
+
+        List<String> namePermissions = new LinkedList<String>();
+        for(String p: item.getPermissions()){
+            if(p.equals("N")) namePermissions.add("Normal");
+            else if (p.equals("S")) namePermissions.add("Seguro");
+            else if (p.equals("P")) namePermissions.add("Perigoso");
+        }
+
+        String permissions = String.join(", ", namePermissions);
+        String str = "" + item.get_quantity() + " [" + permissions + "] " + item.get_name();
         return str;
     }
+
+    private String info_item2(int idClient, int idItem) {
+        Item item = this.clients.get(idClient-1).get_inventory().get(idItem-1);
+
+        String permissions = String.join(", ", item.getPermissions());
+        String str = idItem + " (" + item.get_quantity() + ") [" + permissions + "] " + item.get_name();
+        return str;
+    }
+
 }
