@@ -1,9 +1,11 @@
 package D3.models;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ClientClass implements Client{
+public class ClientClass implements Client, Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private int idManager;
     private List<Item> inventory = new LinkedList<Item>();

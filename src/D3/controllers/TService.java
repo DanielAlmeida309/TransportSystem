@@ -31,7 +31,7 @@ public interface TService {
 
     boolean readFile(String nameFile);
 
-    void saveFile(String nameFile);
+    void saveFile(String nameFile, TService ts);
 
     boolean has_items(int idClient, String[][] items); // has_items recebe uma matriz de items (idItem, Quantidade), verificar cada item se já existe esse item registado, se existir retornar true logo, se nenhum existir retornar false
 

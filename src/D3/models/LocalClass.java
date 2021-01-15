@@ -1,6 +1,9 @@
 package D3.models;
 
-public class LocalClass implements Local {
+import java.io.Serializable;
+
+public class LocalClass implements Local, Serializable {
+    private static final long serialVersionUID = 1L;
     private int id;
     private String name;
 

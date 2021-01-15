@@ -353,7 +353,7 @@ public class main {
 
     private static void commandG(TService ts, Scanner sc, String[] comm2) {
         String nameFile = comm2[1];
-        ts.saveFile(nameFile);
+        ts.saveFile(nameFile, ts);
     }
 
 
@@ -362,6 +362,9 @@ public class main {
 
         if( ts.readFile(nameFile) ){
             System.out.println("Ficheiro lido com sucesso.");
+        }
+        else {
+            System.out.println("Ficheiro inexistente.");
         }
     }
 

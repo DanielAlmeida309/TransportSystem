@@ -1,9 +1,11 @@
 package D3.models;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TravelClass implements Travel {
+public class TravelClass implements Travel, Serializable {
+    private static final long serialVersionUID = 1L;
     private int idLocal;
     private Driver driver;
     private List<Loader> loaders = new LinkedList<Loader>();

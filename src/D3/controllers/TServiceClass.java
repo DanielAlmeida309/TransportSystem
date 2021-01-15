@@ -2,10 +2,12 @@ package D3.controllers;
 
 import D3.models.*;
 
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TServiceClass implements TService{
+public class TServiceClass implements TService, Serializable {
+    private static final long serialVersionUID = 1L;
     List<Client> clients = new LinkedList<Client>();
     List<Employee> employees = new LinkedList<Employee>();
     List<Local> locals = new LinkedList<Local>();
@@ -130,12 +132,33 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean readFile(String nameFile) {
-        return false;
+        TService ts;
+        try {
+            FileInputStream fileInputStream = new FileInputStream(nameFile);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            ts = (TService)objectInputStream.readObject();
+            objectInputStream.close();
+            fileInputStream.close();
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public void saveFile(String nameFile) {
-
+    public void saveFile(String nameFile, TService ts) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(nameFile);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(ts);
+            objectOutputStream.close();
+            fileOutputStream.close();
+        }
+        catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     @Override
