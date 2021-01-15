@@ -83,7 +83,7 @@ public class main {
 
             System.out.println("Categoria inexistente.");
 
-        }else if( !ts.permission_existent(category) ){
+        }else if( !ts.permission_existent(permission) ){
 
             System.out.println("Permissão inexistente.");
 

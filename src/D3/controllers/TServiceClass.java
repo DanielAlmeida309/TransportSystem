@@ -23,7 +23,7 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public boolean permission_existent(String category) {
-        return category.equals('N') || category.equals('S') ||  category.equals('P');
+        return category.equals("N") || category.equals("S") ||  category.equals("P");
     }
 
     @Override
@@ -366,18 +366,18 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public String get_nameEmployee(int idEmployee) {
-        return this.employees.get(idEmployee).get_name();
+        return this.employees.get(idEmployee-1).get_name();
     }
 
     @Override
     public String get_categoryEmployee(int idEmployee) {
-        if (this.employees.get(idEmployee) instanceof Driver) {
+        if (this.employees.get(idEmployee-1) instanceof Driver) {
             return "Condutor";
         }
-        else if (this.employees.get(idEmployee) instanceof Loader) {
+        else if (this.employees.get(idEmployee-1) instanceof Loader) {
             return "Carregador";
         }
-        else if (this.employees.get(idEmployee) instanceof Manager) {
+        else if (this.employees.get(idEmployee-1) instanceof Manager) {
             return "Gestor";
         }
         return null;
@@ -386,7 +386,7 @@ public class TServiceClass implements TService, Serializable {
     @Override
     public List<String> get_permissionEmployee(int idEmployee) {
         List<String> permissions = new LinkedList<String>();
-        Employee employee = employees.get(idEmployee);
+        Employee employee = employees.get(idEmployee-1);
         for( String permission : employee.getPermissions()){
             permissions.add(permission);
         }
@@ -445,19 +445,19 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public String get_nameClient(int idClient) {
-        return this.clients.get(idClient).get_name();
+        return this.clients.get(idClient-1).get_name();
     }
 
     @Override
     public String get_nameManager(int idClient) {
-        int idManager =  this.clients.get(idClient).getIdManager();
-        return this.employees.get(idManager).get_name();
+        int idManager =  this.clients.get(idClient-1).getIdManager();
+        return this.employees.get(idManager-1).get_name();
     }
 
     @Override
     public List<String> info_itens(int idClient) {
         List<String> strList = new LinkedList<String>();
-        for(int i = 0; i < this.clients.get(idClient).get_inventory().size(); i++) {
+        for(int i = 0; i < this.clients.get(idClient-1).get_inventory().size(); i++) {
             strList.add(this.info_item(idClient,i + 1 ));
         }
         return strList;
