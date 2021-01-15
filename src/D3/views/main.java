@@ -287,11 +287,11 @@ public class main {
 
             System.out.println(ts.info_item(idClient, idItem));
             System.out.println("Depósitos:");
-            for(String text : ts.info_depositsCI(idClient)){
+            for(String text : ts.info_depositsCI(idClient, idItem)){
                 System.out.println("  "+text);
             }
             System.out.println("Entregas:");
-            for(String text : ts.info_deliveriesCI(idClient)){
+            for(String text : ts.info_deliveriesCI(idClient, idItem)){
                 System.out.println("  "+text);
             }
 
@@ -332,7 +332,12 @@ public class main {
 
             System.out.println(ts.get_nameEmployee(idEmployee));
             System.out.println(ts.get_categoryEmployee(idEmployee));
-            System.out.println(ts.get_permissionEmployee(idEmployee));
+            List<String> permissions = ts.get_permissionEmployee(idEmployee);
+            for(String permission : permissions){
+                System.out.print(permission);
+            }
+            System.out.println("");
+
 
             System.out.println("Depósitos:");
             for(String text : ts.info_depositsE(idEmployee)){

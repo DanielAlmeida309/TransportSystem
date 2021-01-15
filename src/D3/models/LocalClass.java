@@ -10,6 +10,6 @@ public class LocalClass implements Local {
 
     @Override
     public String getName() {
-        return null;
+        return this.name;
     }
 }

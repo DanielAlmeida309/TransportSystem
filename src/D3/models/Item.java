@@ -5,8 +5,6 @@ import java.util.List;
 public interface Item {
     int get_quantity();
 
-    String getName();
-
     List<String> getPermissions();
 
     void add_quantity(int s);

@@ -190,7 +190,7 @@ public class TServiceClass implements TService{
     @Override
     public int register_deposit(int idClient, int idLocal, String[] idEmployees, String[][] items) {
         int i, j;
-        Driver driver;
+        Driver driver = null;
         Client client;
         List<Loader> loaders = new LinkedList<Loader>();
         List<Item> cargo = new LinkedList<Item>();
@@ -208,10 +208,10 @@ public class TServiceClass implements TService{
 
         for(i=0; i<inventory.size();i++){
             for(j=0;j<items.length;j++){
-                int quantItem = Integer.parseInt( items[j][1] )
+                int quantItem = Integer.parseInt( items[j][1] );
                 if( i == Integer.parseInt( items[j][0] ) ){
                     Item atualItem = inventory.get(i);
-                    atualItem.add_quantity( atualItem.get_quantity() + quantItem);
+                    atualItem.add_quantity( quantItem);
 
                     Item new_item = new ItemClass(atualItem.get_name(), quantItem);
                     cargo.add(new_item);
@@ -256,7 +256,7 @@ public class TServiceClass implements TService{
     @Override
     public int register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items) {
         int i, j;
-        Driver driver;
+        Driver driver = null;
         Client client;
         List<Loader> loaders = new LinkedList<Loader>();
         List<Item> cargo = new LinkedList<Item>();
@@ -274,10 +274,10 @@ public class TServiceClass implements TService{
 
         for(i=0; i<inventory.size();i++){
             for(j=0;j<items.length;j++){
-                int quantItem = Integer.parseInt( items[j][1] )
+                int quantItem = Integer.parseInt( items[j][1] );
                 if( i == Integer.parseInt( items[j][0] ) ){
                     Item atualItem = inventory.get(i);
-                    atualItem.remove_quantity( atualItem.get_quantity() - quantItem);
+                    atualItem.remove_quantity( quantItem);
 
                     Item new_item = new ItemClass(atualItem.get_name(), quantItem);
                     cargo.add(new_item);
@@ -298,7 +298,7 @@ public class TServiceClass implements TService{
             }
         }
 
-        Delivery new_delivery = new DepositClass(idLocal, driver, loaders, cargo);
+        Delivery new_delivery = new DeliveryClass(idLocal, driver, loaders, cargo);
         deliveries.add(new_delivery);
         return deliveries.size();
     }
@@ -311,7 +311,7 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_delivery_client(int idClient, int idDelivery) {
-        List<Delivery> deliveries = clients.get(idClient-1).get_delivery();
+        List<Delivery> deliveries = clients.get(idClient-1).get_deliveries();
         return deliveries.size() >= idDelivery;
     }
 
@@ -334,7 +334,7 @@ public class TServiceClass implements TService{
         List<Item> itemList = delivery.getItems();
         for(Item item: itemList) {
             int identificarItem = this.clients.get(idClient).get_inventory().indexOf(item) + 1;
-            stringList.add("" + identificarItem + " " + item.get_quantity() + " " + item.getName());
+            stringList.add("" + identificarItem + " " + item.get_quantity() + " " + item.get_name());
         }
 
 
@@ -361,8 +361,14 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String get_permissionEmployee(int idEmployee) {
-        return null;
+    public List<String> get_permissionEmployee(int idEmployee) {
+        List<String> permissions = new LinkedList<String>();
+        Employee employee = employees.get(idEmployee);
+        for( String permission : employee.getPermissions()){
+            permissions.add(permission);
+        }
+        return permissions;
+
     }
 
     @Override
@@ -461,20 +467,46 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String[] info_depositsCI(int idClient) {
-        return new String[0];
+    public String[] info_depositsCI(int idClient, int idItem) {
+        Client atualClient = clients.get(idClient-1);
+        String nameItem = atualClient.get_inventory().get(idItem-1).get_name();
+        List<Deposit> deposits = atualClient.get_deposits();
+        String[] inf = new String[0];
+        for(int i=0; i<deposits.size(); i++){
+            List<Item> cargo = deposits.get(i).getItems();
+            for(int j=0; j<cargo.size(); j++){
+                if(cargo.get(j).get_name().equals(nameItem)){
+                    String infDeposit = i + " " + cargo.get(j).get_quantity();
+                    inf[j] = infDeposit; 
+                }
+            }
+        }
+        return inf;
     }
 
     @Override
-    public String[] info_deliveriesCI(int idClient) {
-        return new String[0];
+    public String[] info_deliveriesCI(int idClient, int idItem) {
+        Client atualClient = clients.get(idClient-1);
+        String nameItem = atualClient.get_inventory().get(idItem-1).get_name();
+        List<Delivery> deliveries = atualClient.get_deliveries();
+        String[] inf = new String[0];
+        for(int i=0; i<deliveries.size(); i++){
+            List<Item> cargo = deliveries.get(i).getItems();
+            for(int j=0; j<cargo.size(); j++){
+                if(cargo.get(j).get_name().equals(nameItem)){
+                    String infDelivery = i + " " + cargo.get(j).get_quantity();
+                    inf[j] = infDelivery;
+                }
+            }
+        }
+        return inf;
     }
 
     @Override
     public String info_item(int idClient, int idItem) {
         Item item = this.clients.get(idClient).get_inventory().get(idItem);
         String permissions = String.join(", ", item.getPermissions());
-        String str = "" + item.get_quantity() + " " + permissions + " " + item.getName();
+        String str = "" + item.get_quantity() + " " + permissions + " " + item.get_name();
         return str;
     }
 }

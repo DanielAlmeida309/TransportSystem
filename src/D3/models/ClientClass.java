@@ -22,22 +22,28 @@ public class ClientClass implements Client{
 
     @Override
     public List<Item> get_inventory() {
-        return null;
+        return inventory;
     }
 
     @Override
     public Delivery getDelivery(int idDelivery) {
-        return null;
+        return deliveries.get(idDelivery-1);
     }
 
     @Override
     public int getIdManager() {
-        return 0;
+        return idManager;
+    }
+
+
+    @Override
+    public List<Deposit> get_deposits() {
+        return deposits;
     }
 
     @Override
-    public List<Delivery> get_delivery() {
-        return null;
+    public List<Delivery> get_deliveries() {
+        return deliveries;
     }
 }
 

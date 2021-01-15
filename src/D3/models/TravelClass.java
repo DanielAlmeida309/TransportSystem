@@ -18,21 +18,22 @@ public class TravelClass implements Travel {
 
     @Override
     public int getIdLocal() {
-        return 0;
+        return this.idLocal;
     }
 
     @Override
     public Driver getDriver() {
-        return null;
+        return this.driver;
     }
 
     @Override
     public List<Loader> getLoaders() {
-        return null;
+        return this.loaders;
     }
 
     @Override
     public List<Item> getItems() {
-        return null;
+        return this.cargo;
     }
+
 }

@@ -20,31 +20,30 @@ public class ItemClass implements Item {
 
     @Override
     public int get_quantity() {
-        return 0;
-    }
-
-    @Override
-    public String getName() {
-        return null;
+        return this.quantity;
     }
 
     @Override
     public List<String> getPermissions() {
-        return null;
+        List<String> perm = new LinkedList<String>();
+        for(int i=0; i< permissions.length; i++){
+            perm.add(permissions[i]);
+        }
+        return perm;
     }
 
     @Override
     public void add_quantity(int s) {
-
+        this.quantity =  this.quantity + s;
     }
 
     @Override
     public String get_name() {
-        return null;
+        return this.name;
     }
 
     @Override
     public void remove_quantity(int i) {
-
+        this.quantity = this.quantity - i;
     }
 }

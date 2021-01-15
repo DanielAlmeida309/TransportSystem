@@ -67,7 +67,7 @@ public interface TService {
 
     String get_categoryEmployee(int idEmployee);
 
-    String get_permissionEmployee(int idEmployee);
+    List<String> get_permissionEmployee(int idEmployee);
 
     String[] info_depositsE(int idEmployee);
 
@@ -77,7 +77,7 @@ public interface TService {
 
     String[] info_deliveriesCC(int idClient);
 
-    String[] info_depositsCI(int idClient);
+    String[] info_depositsCI(int idClient, int idItem);
 
-    String[] info_deliveriesCI(int idClient);
+    String[] info_deliveriesCI(int idClient, int idItem);
 }

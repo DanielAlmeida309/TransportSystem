@@ -9,11 +9,11 @@ public class EmployeeClass implements Employee {
 
     @Override
     public String get_name() {
-        return null;
+        return this.name;
     }
 
     @Override
     public List<String> getPermissions() {
-        return null;
+        return permissions;
     }
 }
