@@ -19,6 +19,26 @@ public class ClientClass implements Client{
     public String get_name() {
         return this.name;
     }
+
+    @Override
+    public List<Item> get_inventory() {
+        return null;
+    }
+
+    @Override
+    public Delivery getDelivery(int idDelivery) {
+        return null;
+    }
+
+    @Override
+    public int getIdManager() {
+        return 0;
+    }
+
+    @Override
+    public List<Delivery> get_delivery() {
+        return null;
+    }
 }
 
 

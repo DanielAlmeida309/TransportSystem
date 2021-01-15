@@ -176,12 +176,66 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean loaders_have_permissions(String[] idEmployees, String[][] items) {
-        return false;
+        for(Employee atualEmployee : employees) {
+            for (int i = 1; i < items.length; i++) {
+                List<String> permissions = atualEmployee.getPermissions();
+                if (!permissions.contains(items[i][0])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override
-    public String register_deposit(int idClient, int idLocal, String[] idEmployees, String[][] items) {
-        return null;
+    public int register_deposit(int idClient, int idLocal, String[] idEmployees, String[][] items) {
+        int i, j;
+        Driver driver;
+        Client client;
+        List<Loader> loaders = new LinkedList<Loader>();
+        List<Item> cargo = new LinkedList<Item>();
+
+        List<Item> inventory = new LinkedList<Item>();
+        List<Deposit> deposits = new LinkedList<Deposit>();
+
+        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
+            if(idClient == i){
+                client = clients.get(i);
+                inventory = client.get_inventory();
+                deposits = client.get_deposits();
+            }
+        }
+
+        for(i=0; i<inventory.size();i++){
+            for(j=0;j<items.length;j++){
+                int quantItem = Integer.parseInt( items[j][1] )
+                if( i == Integer.parseInt( items[j][0] ) ){
+                    Item atualItem = inventory.get(i);
+                    atualItem.add_quantity( atualItem.get_quantity() + quantItem);
+
+                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
+                    cargo.add(new_item);
+                }
+            }
+        }
+
+        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
+            if( Integer.parseInt(idEmployees[0]) == i+1){
+                driver = (Driver) employees.get(i);
+            }
+        }
+        for(i=1; i<idEmployees.length; i++){  //vai buscar os objetos dos loaders inseridos
+            for(j=0; j<employees.size(); j++){
+                if( Integer.parseInt(idEmployees[0]) == j+1){
+                    loaders.add( (Loader) employees.get(j) );
+                }
+            }
+        }
+
+        Deposit new_deposit = new DepositClass(idLocal, driver, loaders, cargo);
+        deposits.add(new_deposit);
+        return deposits.size();
+
     }
 
     @Override
@@ -200,8 +254,53 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items) {
-        return null;
+    public int register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items) {
+        int i, j;
+        Driver driver;
+        Client client;
+        List<Loader> loaders = new LinkedList<Loader>();
+        List<Item> cargo = new LinkedList<Item>();
+
+        List<Item> inventory = new LinkedList<Item>();
+        List<Delivery> deliveries = new LinkedList<Delivery>();
+
+        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
+            if(idClient == i){
+                client = clients.get(i);
+                inventory = client.get_inventory();
+                deliveries = client.get_deliveries();
+            }
+        }
+
+        for(i=0; i<inventory.size();i++){
+            for(j=0;j<items.length;j++){
+                int quantItem = Integer.parseInt( items[j][1] )
+                if( i == Integer.parseInt( items[j][0] ) ){
+                    Item atualItem = inventory.get(i);
+                    atualItem.remove_quantity( atualItem.get_quantity() - quantItem);
+
+                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
+                    cargo.add(new_item);
+                }
+            }
+        }
+
+        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
+            if( Integer.parseInt(idEmployees[0]) == i+1){
+                driver = (Driver) employees.get(i);
+            }
+        }
+        for(i=1; i<idEmployees.length; i++){  //vai buscar os objetos dos loaders inseridos
+            for(j=0; j<employees.size(); j++){
+                if( Integer.parseInt(idEmployees[0]) == j+1){
+                    loaders.add( (Loader) employees.get(j) );
+                }
+            }
+        }
+
+        Delivery new_delivery = new DepositClass(idLocal, driver, loaders, cargo);
+        deliveries.add(new_delivery);
+        return deliveries.size();
     }
 
     @Override
@@ -258,6 +357,7 @@ public class TServiceClass implements TService{
         else if (this.employees.get(idEmployee) instanceof Manager) {
             return "Gestor";
         }
+        return null;
     }
 
     @Override

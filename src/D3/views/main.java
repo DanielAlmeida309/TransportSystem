@@ -178,7 +178,7 @@ public class main {
 
                 System.out.println("Funcionário inexistente.");
 
-            }else if ( ! ts.drive_have_permission(idEmployees, items) ){
+            }else if ( ! ts.driver_have_permission(idEmployees[0], items) ){
 
                 System.out.println("Condutor sem permissões.");
 

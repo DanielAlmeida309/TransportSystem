@@ -14,4 +14,8 @@ public interface Client {
     int getIdManager();
 
     List<Delivery> get_delivery();
+
+    List<Deposit> get_deposits();
+
+    List<Delivery> get_deliveries();
 }

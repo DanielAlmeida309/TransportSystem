@@ -8,4 +8,10 @@ public interface Item {
     String getName();
 
     List<String> getPermissions();
+
+    void add_quantity(int s);
+
+    String get_name();
+
+    void remove_quantity(int i);
 }
