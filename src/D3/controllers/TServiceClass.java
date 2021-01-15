@@ -367,12 +367,46 @@ public class TServiceClass implements TService{
 
     @Override
     public String[] info_depositsE(int idEmployee) {
-        return new String[0];
+        int i,j,k;
+        Employee atualEmployee = employees.get(idEmployee - 1);
+        String name = atualEmployee.get_name();
+        String[] inf = new String[0];
+        for(i=0; i<clients.size(); i++){
+            for(k=0; k<clients.get(i).get_deposits().size(); k++){
+                Deposit atualDeposit = clients.get(i).get_deposits().get(k);
+                List<String> nameEmployees = new LinkedList<String>();
+                for(j=0; j< atualDeposit.getLoaders().size(); j++){
+                    nameEmployees.add( atualDeposit.getLoaders().get(j).get_name() );
+                }
+                if( atualDeposit.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
+                    String infDeposit = i + " " + k + " " + locals.get( atualDeposit.getIdLocal()-1 ) + " " + clients.get(i).get_name();
+                    inf[i] = infDeposit;
+                }
+            }
+        }
+        return inf;
     }
 
     @Override
     public String[] info_deliveriesE(int idEmployee) {
-        return new String[0];
+        int i,j,k;
+        Employee atualEmployee = employees.get(idEmployee - 1);
+        String name = atualEmployee.get_name();
+        String[] inf = new String[0];
+        for(i=0; i<clients.size(); i++){
+            for(k=0; k<clients.get(i).get_deliveries().size(); k++){
+                Delivery atualDelivery = clients.get(i).get_deliveries().get(k);
+                List<String> nameEmployees = new LinkedList<String>();
+                for(j=0; j< atualDelivery.getLoaders().size(); j++){
+                    nameEmployees.add( atualDelivery.getLoaders().get(j).get_name() );
+                }
+                if( atualDelivery.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
+                    String infDelivery = i + " " + k + " " + locals.get( atualDelivery.getIdLocal()-1 ) + " " + clients.get(i).get_name();
+                    inf[i] = infDelivery;
+                }
+            }
+        }
+        return inf;
     }
 
     @Override
