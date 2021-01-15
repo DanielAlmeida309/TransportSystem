@@ -401,12 +401,38 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public String[] info_deposits(int idClient) {
+    public String[] info_depositsCC(int idClient) {
+        String[] info = new String[0];
+        Client atualClient = clients.get(idClient-1);
+        List<Deposit> deposits = atualClient.get_deposits();
+        for(int i=0; i<deposits.size(); i++){
+            int idLocal = deposits.get(i).getIdLocal();
+            String infDeposit = i + " " + locals.get(idLocal-1).getName();
+            info[i] = infDeposit;
+        }
+        return info;
+    }
+
+    @Override
+    public String[] info_deliveriesCC(int idClient) {
+        String[] info = new String[0];
+        Client atualClient = clients.get(idClient-1);
+        List<Delivery> deliveries = atualClient.get_deliveries();
+        for(int i=0; i<deliveries.size(); i++){
+            int idLocal = deliveries.get(i).getIdLocal();
+            String infDelivery = i + " " + locals.get(idLocal-1).getName();
+            info[i] = infDelivery;
+        }
+        return info;
+    }
+
+    @Override
+    public String[] info_depositsCI(int idClient) {
         return new String[0];
     }
 
     @Override
-    public String[] info_deliveries(int idClient) {
+    public String[] info_deliveriesCI(int idClient) {
         return new String[0];
     }
 

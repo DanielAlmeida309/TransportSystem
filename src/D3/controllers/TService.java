@@ -59,10 +59,6 @@ public interface TService {
 
     List<String> info_itens(int idClient); //commandCC
 
-    String[] info_deposits(int idClient); //commandCC & commandCI
-
-    String[] info_deliveries(int idClient); //commandCC & commandCI
-
     String info_item(int idClient, int idItem); //commandCI
 
     List<String> info_delivery(int idClient, int idDelivery); //commandCE
@@ -76,4 +72,12 @@ public interface TService {
     String[] info_depositsE(int idEmployee);
 
     String[] info_deliveriesE(int idEmployee);
+
+    String[] info_depositsCC(int idClient);
+
+    String[] info_deliveriesCC(int idClient);
+
+    String[] info_depositsCI(int idClient);
+
+    String[] info_deliveriesCI(int idClient);
 }

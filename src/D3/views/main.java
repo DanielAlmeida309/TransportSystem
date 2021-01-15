@@ -260,11 +260,11 @@ public class main {
                 System.out.println("  "+text);
             }
             System.out.println("Depósitos:");
-            for(String text : ts.info_deposits(idClient)){
+            for(String text : ts.info_depositsCC(idClient)){
                 System.out.println("  "+text);
             }
             System.out.println("Entregas:");
-            for(String text : ts.info_deliveries(idClient)){
+            for(String text : ts.info_deliveriesCC(idClient)){
                 System.out.println("  "+text);
             }
 
@@ -287,11 +287,11 @@ public class main {
 
             System.out.println(ts.info_item(idClient, idItem));
             System.out.println("Depósitos:");
-            for(String text : ts.info_deposits(idClient)){
+            for(String text : ts.info_depositsCI(idClient)){
                 System.out.println("  "+text);
             }
             System.out.println("Entregas:");
-            for(String text : ts.info_deliveries(idClient)){
+            for(String text : ts.info_deliveriesCI(idClient)){
                 System.out.println("  "+text);
             }
 
