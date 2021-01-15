@@ -12,4 +12,6 @@ public interface Client {
     Delivery getDelivery(int idDelivery);
 
     int getIdManager();
+
+    List<Delivery> get_delivery();
 }

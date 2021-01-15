@@ -21,20 +21,20 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean permission_existent(String category) {
-        return false;
+        return category.equals('N') || category.equals('S') ||  category.equals('P');
     }
 
     @Override
     public boolean has_employee_in_category(String name, String category) {
         for( Employee atual_employee : employees){
             if(atual_employee.get_name()==name){
-                if (category == "Condutor" && atual_employee instanceof Driver) {
+                if (category.equals("Condutor") && atual_employee instanceof Driver) {
                     return true;
                 }
-                else if (category == "Carregador" && atual_employee instanceof Loader) {
+                else if (category.equals("Carregador") && atual_employee instanceof Loader) {
                     return true;
                 }
-                else if (category == "Gestor" && atual_employee instanceof Manager) {
+                else if (category.equals("Gestor") && atual_employee instanceof Manager) {
                     return true;
                 }
             }
@@ -63,7 +63,7 @@ public class TServiceClass implements TService{
     @Override
     public boolean has_client(String name) {
         for(Client client : clients){
-            if(client.get_name() == name){
+            if(client.get_name().equals(name)){
                 return true;
             }
         }
@@ -84,7 +84,16 @@ public class TServiceClass implements TService{
 
     @Override
     public int[] register_item(String nameClient, String nameItem, String[] permissions) {
-        return new int[0];
+        for(int i=0; i<clients.size();i++){
+            if(clients.get(i).get_name().equals(nameClient)){
+                List<Item> inventory = clients.get(i).get_inventory();
+                Item newItem = new ItemClass(nameItem, permissions);
+                inventory.add(newItem);
+                int[] ids = new int[0]; ids[0]= i; ids[i] = inventory.size();
+                return ids;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -144,13 +153,25 @@ public class TServiceClass implements TService{
     }
 
     @Override
-    public boolean has_emplyees(String[] idEmployees) {
-        return false;
+    public boolean has_employees(String[] idEmployees) {
+        for(String id : idEmployees){
+            if(!has_employee(Integer.parseInt(id))){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
-    public boolean drive_have_permission(String[] idEmployees, String[][] items) {
-        return false;
+    public boolean driver_have_permission(String idEmployee, String[][] items) {
+        Employee atualEmployee = employees.get( Integer.parseInt(idEmployee)-1 );
+        for(int i=0; i<items.length; i++){
+            List<String> permissions = atualEmployee.getPermissions();
+            if(! permissions.contains(items[i][0]) ){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -185,12 +206,14 @@ public class TServiceClass implements TService{
 
     @Override
     public boolean has_item_client(int idClient, int idItem) {
-        return false;
+        List<Item> inventory = clients.get(idClient-1).get_inventory();
+        return inventory.size() >= idItem;
     }
 
     @Override
     public boolean has_delivery_client(int idClient, int idDelivery) {
-        return false;
+        List<Delivery> deliveries = clients.get(idClient-1).get_delivery();
+        return deliveries.size() >= idDelivery;
     }
 
     @Override

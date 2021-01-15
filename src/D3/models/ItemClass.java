@@ -6,6 +6,10 @@ import java.util.List;
 public class ItemClass implements Item {
     private String name;
     private int quantity;
-    private List<String> permissions = new LinkedList<String>();
+    private String[] permissions;
 
+    public ItemClass(String nameItem, String[] permissions) {
+        this.name = nameItem;
+        this.permissions = permissions;
+    }
 }
