@@ -97,8 +97,16 @@ public class main {
     }
 
     static void commandRC(TService ts,Scanner sc,String[] comm2){
-        String name = comm2[2] + " " + comm2[3];
         int idEmployee = Integer.parseInt(comm2[1]);
+        String name = "";
+        for(int i = 2; i < comm2.length; i++) {
+            if(i == 2) {
+                name += comm2[i];
+            }
+            else {
+                name += " " + comm2[i];
+            }
+        }
 
         if (!ts.has_employee(idEmployee)) {
             System.out.println("Funcionario inexistente.");
@@ -128,7 +136,7 @@ public class main {
                 nameItem += " " + comm2[i];
             }
         }
-//        String nameItem = comm2[2] + " " + comm2[3];
+
         List<String> permissions = Arrays.asList(sc.nextLine().split(" ", 8));
 
         if( ! ts.has_idClient(Integer.parseInt(idClient)) ){
@@ -137,8 +145,6 @@ public class main {
 
         }else{
             String nameClient = ts.get_nameClient(Integer.parseInt(idClient));
-
-
 
             int ids[] =ts.register_item(nameClient, nameItem, permissions);
             System.out.println("Item registado para o cliente " + ids[0] + " com o identificador " + ids[1]);
