@@ -8,9 +8,9 @@ public class ItemClass implements Item, Serializable {
     private static final long serialVersionUID = 1L;
     private String name;
     private int quantity;
-    private String[] permissions;
+    private List<String> permissions;
 
-    public ItemClass(String nameItem, String[] permissions) {
+    public ItemClass(String nameItem, List<String> permissions) {
         this.name = nameItem;
         this.quantity = 0;
         this.permissions = permissions;
@@ -27,11 +27,7 @@ public class ItemClass implements Item, Serializable {
 
     @Override
     public List<String> getPermissions() {
-        List<String> perm = new LinkedList<String>();
-        for(int i=0; i< permissions.length; i++){
-            perm.add(permissions[i]);
-        }
-        return perm;
+        return this.permissions;
     }
 
     @Override

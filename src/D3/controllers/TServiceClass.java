@@ -29,7 +29,7 @@ public class TServiceClass implements TService, Serializable {
     @Override
     public boolean has_employee_in_category(String name, String category) {
         for( Employee atual_employee : employees){
-            if(atual_employee.get_name()==name){
+            if(atual_employee.get_name().equals(name)){
                 if (category.equals("Condutor") && atual_employee instanceof Driver) {
                     return true;
                 }
@@ -85,7 +85,7 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public int[] register_item(String nameClient, String nameItem, String[] permissions) {
+    public int[] register_item(String nameClient, String nameItem, List<String> permissions) {
         for(int i=0; i<clients.size();i++){
             if(clients.get(i).get_name().equals(nameClient)){
                 List<Item> inventory = clients.get(i).get_inventory();
@@ -131,15 +131,15 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public boolean readFile(String nameFile) {
-        TService ts;
+    public Object readFile(String nameFile) {
+        Object ts;
         try {
             FileInputStream fileInputStream = new FileInputStream(nameFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            ts = (TService)objectInputStream.readObject();
+            ts = objectInputStream.readObject();
             objectInputStream.close();
             fileInputStream.close();
-            return true;
+            return ts;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -162,21 +162,18 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public boolean has_items(int idClient, String[][] items) {
-        Client atual_client = clients.get(idClient - 1);
-        int tam_inventory = atual_client.get_inventory().size();
-        for(int i=0; i<items.length; i++){
-            int idItem = Integer.parseInt(items[i][1]);
-            if(! (idItem <= tam_inventory) ){
-               return false;
+    public boolean has_items(int idClient, List<Integer> idItems) {
+        int inventorySize = this.clients.get(idClient-1).get_inventory().size();
+        for(Integer id: idItems) {
+            if (inventorySize < id) {
+                return false;
             }
         }
         return true;
-
     }
 
     @Override
-    public boolean has_employees(String[] idEmployees) {
+    public boolean has_employees(List<String> idEmployees) {
         for(String id : idEmployees){
             if(!has_employee(Integer.parseInt(id))){
                 return false;
@@ -186,23 +183,13 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public boolean driver_have_permission(String idEmployee, String[][] items) {
-        Employee atualEmployee = employees.get( Integer.parseInt(idEmployee)-1 );
-        for(int i=0; i<items.length; i++){
-            List<String> permissions = atualEmployee.getPermissions();
-            if(! permissions.contains(items[i][0]) ){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean loaders_have_permissions(String[] idEmployees, String[][] items) {
-        for(Employee atualEmployee : employees) {
-            for (int i = 1; i < items.length; i++) {
-                List<String> permissions = atualEmployee.getPermissions();
-                if (!permissions.contains(items[i][0])) {
+    public boolean driver_have_permission(int idClient, int idEmployee, List<Integer> idItems) {
+        List<String> driverPermissions = this.employees.get(idEmployee-1).getPermissions();
+        for(Integer idItem: idItems) {
+            List<String> itemPermissions = this.clients.get(idClient-1).get_inventory().get(idItem-1).getPermissions();
+            for(String p: itemPermissions) {
+                System.out.println(p);
+                if(!driverPermissions.contains(p)) {
                     return false;
                 }
             }
@@ -211,7 +198,21 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public int register_deposit(int idClient, int idLocal, String[] idEmployees, String[][] items) {
+    public boolean loaders_have_permissions(int idClient, int idEmployee, List<Integer> idItems) {
+        List<String> driverPermissions = this.employees.get(idEmployee-1).getPermissions();
+        for(Integer idItem: idItems) {
+            List<String> itemPermissions = this.clients.get(idClient-1).get_inventory().get(idItem-1).getPermissions();
+            for(String p: itemPermissions) {
+                if(driverPermissions.contains(p)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int register_deposit(int idClient, int idLocal, List<String> idEmployees, List<Integer> idItems, List<Integer> quantidade) {
         int i, j;
         Driver driver = null;
         Client client;
@@ -221,39 +222,69 @@ public class TServiceClass implements TService, Serializable {
         List<Item> inventory = new LinkedList<Item>();
         List<Deposit> deposits = new LinkedList<Deposit>();
 
-        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
-            if(idClient == i){
-                client = clients.get(i);
-                inventory = client.get_inventory();
-                deposits = client.get_deposits();
+//        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
+//            if(idClient == i){
+//                client = clients.get(i);
+//                inventory = client.get_inventory();
+//                deposits = client.get_deposits();
+//            }
+//        }
+
+        inventory = this.clients.get(idClient-1).get_inventory();
+        deposits = this.clients.get(idClient-1).get_deposits();
+
+//        for(i=0; i<inventory.size(); i++){
+//            for(j=0; j<idItems.size(); j++){
+//                int quantItem = quandidade.get(j);
+//                if( i == idItems.get(i) ){
+//                    Item atualItem = inventory.get(i);
+//
+//                    System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
+//                    this.clients.get(idClient-1).get_inventory().get(i).add_quantity(quantItem);
+//                    System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
+//
+//                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
+//                    cargo.add(new_item);
+//                }
+//            }
+//        }
+
+        for(i = 0; i < idItems.size(); i++) {
+            int quantItem = quantidade.get(i);
+            Item atualItem = inventory.get(i);
+
+//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
+            this.clients.get(idClient-1).get_inventory().get(i).add_quantity(quantItem);
+//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
+
+            Item new_item = new ItemClass(atualItem.get_name(), quantItem);
+            cargo.add(new_item);
+        }
+
+//        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
+//            if( Integer.parseInt(idEmployees.get(0)) == i+1){
+//                driver = (Driver) employees.get(i);
+//            }
+//        }
+//        driver = (Driver) this.employees.get(Integer.parseInt(idEmployees.get(0)));
+//
+//        for(i=1; i<idEmployees.size(); i++){  //vai buscar os objetos dos loaders inseridos
+//            for(j=0; j<employees.size(); j++){
+//                if( Integer.parseInt(idEmployees.get(0)) == j+1){
+//                    loaders.add( (Loader) employees.get(j) );
+//                }
+//            }
+//        }
+
+        for (i = 0; i < idEmployees.size(); i++) {
+            if (this.employees.get(Integer.parseInt(idEmployees.get(i))-1) instanceof Driver) {
+                driver = (Driver) this.employees.get(Integer.parseInt(idEmployees.get(i))-1);
+            }
+            else if (this.employees.get(Integer.parseInt(idEmployees.get(i))-1) instanceof Loader) {
+                loaders.add( (Loader) this.employees.get(Integer.parseInt(idEmployees.get(i))-1) );
             }
         }
 
-        for(i=0; i<inventory.size();i++){
-            for(j=0;j<items.length;j++){
-                int quantItem = Integer.parseInt( items[j][1] );
-                if( i == Integer.parseInt( items[j][0] ) ){
-                    Item atualItem = inventory.get(i);
-                    atualItem.add_quantity( quantItem);
-
-                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
-                    cargo.add(new_item);
-                }
-            }
-        }
-
-        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
-            if( Integer.parseInt(idEmployees[0]) == i+1){
-                driver = (Driver) employees.get(i);
-            }
-        }
-        for(i=1; i<idEmployees.length; i++){  //vai buscar os objetos dos loaders inseridos
-            for(j=0; j<employees.size(); j++){
-                if( Integer.parseInt(idEmployees[0]) == j+1){
-                    loaders.add( (Loader) employees.get(j) );
-                }
-            }
-        }
 
         Deposit new_deposit = new DepositClass(idLocal, driver, loaders, cargo);
         deposits.add(new_deposit);
@@ -262,14 +293,9 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public boolean have_quant_items(int idClient, String[][] items) {
-        Client atual_client = clients.get(idClient - 1);
-        List<Item> inventory = atual_client.get_inventory();
-        for(int i=0; i<items.length; i++){
-            int quantItem = Integer.parseInt(items[i][2]);
-            int codItem = Integer.parseInt(items[i][1]);
-            int quantity = inventory.get(codItem).get_quantity();
-            if( quantItem <= quantity ){
+    public boolean have_quant_items(int idClient, List<Integer> idItems, List<Integer> quantidade) {
+        for(int i = 0; i<idItems.size(); i++){
+            if (quantidade.get(i) > this.clients.get(idClient-1).get_inventory().get(idItems.get(i)-1).get_quantity()) {
                 return false;
             }
         }
@@ -277,7 +303,7 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public int register_delivery(int idClient, int idLocal, String[] idEmployees, String[][] items) {
+    public int register_delivery(int idClient, int idLocal, List<String> idEmployees, List<Integer> idItems, List<Integer> quantidade) {
         int i, j;
         Driver driver = null;
         Client client;
@@ -287,37 +313,61 @@ public class TServiceClass implements TService, Serializable {
         List<Item> inventory = new LinkedList<Item>();
         List<Delivery> deliveries = new LinkedList<Delivery>();
 
-        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
-            if(idClient == i){
-                client = clients.get(i);
-                inventory = client.get_inventory();
-                deliveries = client.get_deliveries();
-            }
+//        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
+//            if(idClient == i){
+//                client = clients.get(i);
+//                inventory = client.get_inventory();
+//                deliveries = client.get_deliveries();
+//            }
+//        }
+
+        inventory = this.clients.get(idClient-1).get_inventory();
+        deliveries = this.clients.get(idClient-1).get_deliveries();
+
+//        for(i=0; i<=inventory.size();i++){
+//            for(j=0;j<idItems.size();j++){
+//                int quantItem = quantidade.get(j);
+//                if( i == idItems.get(j) ){
+//                    Item atualItem = inventory.get(i);
+//                    atualItem.remove_quantity( quantItem);
+//
+//                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
+//                    cargo.add(new_item);
+//                }
+//            }
+//        }
+
+        for(i = 0; i < idItems.size(); i++) {
+            int quantItem = quantidade.get(i);
+            Item atualItem = inventory.get(i);
+
+//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
+            this.clients.get(idClient-1).get_inventory().get(i).remove_quantity(quantItem);
+//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
+
+            Item new_item = new ItemClass(atualItem.get_name(), quantItem);
+            cargo.add(new_item);
         }
 
-        for(i=0; i<inventory.size();i++){
-            for(j=0;j<items.length;j++){
-                int quantItem = Integer.parseInt( items[j][1] );
-                if( i == Integer.parseInt( items[j][0] ) ){
-                    Item atualItem = inventory.get(i);
-                    atualItem.remove_quantity( quantItem);
+//        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
+//            if( Integer.parseInt(idEmployees.get(0)) == i+1){
+//                driver = (Driver) employees.get(i);
+//            }
+//        }
+//        for(i=1; i<idEmployees.size(); i++){  //vai buscar os objetos dos loaders inseridos
+//            for(j=0; j<employees.size(); j++){
+//                if( Integer.parseInt(idEmployees.get(0)) == j+1){
+//                    loaders.add( (Loader) employees.get(j) );
+//                }
+//            }
+//        }
 
-                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
-                    cargo.add(new_item);
-                }
+        for (i = 0; i < idEmployees.size(); i++) {
+            if (this.employees.get(Integer.parseInt(idEmployees.get(i))-1) instanceof Driver) {
+                driver = (Driver) this.employees.get(Integer.parseInt(idEmployees.get(i))-1);
             }
-        }
-
-        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
-            if( Integer.parseInt(idEmployees[0]) == i+1){
-                driver = (Driver) employees.get(i);
-            }
-        }
-        for(i=1; i<idEmployees.length; i++){  //vai buscar os objetos dos loaders inseridos
-            for(j=0; j<employees.size(); j++){
-                if( Integer.parseInt(idEmployees[0]) == j+1){
-                    loaders.add( (Loader) employees.get(j) );
-                }
+            else if (this.employees.get(Integer.parseInt(idEmployees.get(i))-1) instanceof Loader) {
+                loaders.add( (Loader) this.employees.get(Integer.parseInt(idEmployees.get(i))-1) );
             }
         }
 
@@ -396,46 +446,123 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public String[] info_depositsE(int idEmployee) {
-        int i,j,k;
-        Employee atualEmployee = employees.get(idEmployee - 1);
-        String name = atualEmployee.get_name();
-        String[] inf = new String[0];
-        for(i=0; i<clients.size(); i++){
-            for(k=0; k<clients.get(i).get_deposits().size(); k++){
-                Deposit atualDeposit = clients.get(i).get_deposits().get(k);
-                List<String> nameEmployees = new LinkedList<String>();
-                for(j=0; j< atualDeposit.getLoaders().size(); j++){
-                    nameEmployees.add( atualDeposit.getLoaders().get(j).get_name() );
-                }
-                if( atualDeposit.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
-                    String infDeposit = i + " " + k + " " + locals.get( atualDeposit.getIdLocal()-1 ) + " " + clients.get(i).get_name();
-                    inf[i] = infDeposit;
+    public List<String> info_depositsE(int idEmployee) {
+        List<String> inf = new LinkedList<String>();
+        if (this.employees.get(idEmployee - 1) instanceof Manager) {
+            for(int i = 0; i < this.clients.size(); i++) {
+                if (this.clients.get(i).getIdManager() == idEmployee) {
+                    for(int j = 0; j < this.clients.get(i).get_deposits().size(); j++) {
+                        String nameLocal = this.locals.get(this.clients.get(i).get_deposits().get(j).getIdLocal()-1).getName();
+                        String info = (i + 1) + " " + (j + 1) + " (" + nameLocal + ") " + this.clients.get(i).get_name();
+                        inf.add(info);
+                    }
                 }
             }
         }
+        else if (this.employees.get(idEmployee - 1) instanceof Driver) {
+            for(int i = 0; i < this.clients.size(); i++) {
+                for(int j = 0; j < this.clients.get(i).get_deposits().size(); j++) {
+                    int idDriver = this.employees.indexOf(this.clients.get(i).get_deposits().get(j).getDriver());
+                    if(idDriver == idEmployee-1) {
+                        String nameLocal = this.locals.get(this.clients.get(i).get_deposits().get(j).getIdLocal()-1).getName();
+                        String info = (i + 1) + " " + (j + 1) + " (" + nameLocal + ") " + this.clients.get(i).get_name();
+                        inf.add(info);
+                    }
+                }
+            }
+        }
+        else if (this.employees.get(idEmployee - 1) instanceof Loader) {
+            for(int i = 0; i < this.clients.size(); i++) {
+                for(int j = 0; j < this.clients.get(i).get_deposits().size(); j++) {
+                    for(int k = 0; k <  this.clients.get(i).get_deposits().get(j).getLoaders().size(); k++) {
+                        int idLoader = this.employees.indexOf(this.clients.get(i).get_deposits().get(j).getLoaders().get(k));
+                        if (idLoader == idEmployee-1) {
+                            String nameLocal = this.locals.get(this.clients.get(i).get_deposits().get(j).getIdLocal()-1).getName();
+                            String info = (i + 1) + " " + (j + 1) + " (" + nameLocal + ") " + this.clients.get(i).get_name();
+                            inf.add(info);
+                        }
+                    }
+                }
+            }
+        }
+
+//        int i,j,k;
+//        Employee atualEmployee = employees.get(idEmployee - 1);
+//        String name = atualEmployee.get_name();
+//        List<String> inf = new LinkedList<String>();
+//        for(i=0; i<clients.size(); i++){
+//            for(k=0; k<clients.get(i).get_deposits().size(); k++){
+//                Deposit atualDeposit = clients.get(i).get_deposits().get(k);
+//                List<String> nameEmployees = new LinkedList<String>();
+//                for(j=0; j< atualDeposit.getLoaders().size(); j++){
+//                    nameEmployees.add( atualDeposit.getLoaders().get(j).get_name() );
+//                }
+//                if( atualDeposit.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
+//                    String infDeposit = i + " " + k + " " + locals.get( atualDeposit.getIdLocal()-1 ) + " " + clients.get(i).get_name();
+//                    inf.add(infDeposit);
+//                }
+//            }
+//        }
         return inf;
     }
 
     @Override
-    public String[] info_deliveriesE(int idEmployee) {
-        int i,j,k;
-        Employee atualEmployee = employees.get(idEmployee - 1);
-        String name = atualEmployee.get_name();
-        String[] inf = new String[0];
-        for(i=0; i<clients.size(); i++){
-            for(k=0; k<clients.get(i).get_deliveries().size(); k++){
-                Delivery atualDelivery = clients.get(i).get_deliveries().get(k);
-                List<String> nameEmployees = new LinkedList<String>();
-                for(j=0; j< atualDelivery.getLoaders().size(); j++){
-                    nameEmployees.add( atualDelivery.getLoaders().get(j).get_name() );
-                }
-                if( atualDelivery.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
-                    String infDelivery = i + " " + k + " " + locals.get( atualDelivery.getIdLocal()-1 ) + " " + clients.get(i).get_name();
-                    inf[i] = infDelivery;
+    public List<String> info_deliveriesE(int idEmployee) {
+        List<String> inf = new LinkedList<String>();
+        if (this.employees.get(idEmployee - 1) instanceof Manager) {
+            for(int i = 0; i < this.clients.size(); i++) {
+                if (this.clients.get(i).getIdManager() == idEmployee) {
+                    for(int j = 0; j < this.clients.get(i).get_deliveries().size(); j++) {
+                        String nameLocal = this.locals.get(this.clients.get(i).get_deliveries().get(j).getIdLocal()-1).getName();
+                        String info = (i + 1) + " " + (j + 1) + " (" + nameLocal + ") " + this.clients.get(i).get_name();
+                        inf.add(info);
+                    }
                 }
             }
         }
+        else if (this.employees.get(idEmployee - 1) instanceof Driver) {
+            for(int i = 0; i < this.clients.size(); i++) {
+                for(int j = 0; j < this.clients.get(i).get_deliveries().size(); j++) {
+                    int idDriver = this.employees.indexOf(this.clients.get(i).get_deliveries().get(j).getDriver());
+                    if(idDriver == idEmployee-1) {
+                        String nameLocal = this.locals.get(this.clients.get(i).get_deliveries().get(j).getIdLocal()-1).getName();
+                        String info = (i + 1) + " " + (j + 1) + " (" + nameLocal + ") " + this.clients.get(i).get_name();
+                        inf.add(info);
+                    }
+                }
+            }
+        }
+        else if (this.employees.get(idEmployee - 1) instanceof Loader) {
+            for(int i = 0; i < this.clients.size(); i++) {
+                for(int j = 0; j < this.clients.get(i).get_deliveries().size(); j++) {
+                    for(int k = 0; k <  this.clients.get(i).get_deliveries().get(j).getLoaders().size(); k++) {
+                        int idLoader = this.employees.indexOf(this.clients.get(i).get_deliveries().get(j).getLoaders().get(k));
+                        if (idLoader == idEmployee-1) {
+                            String nameLocal = this.locals.get(this.clients.get(i).get_deliveries().get(j).getIdLocal()-1).getName();
+                            String info = (i + 1) + " " + (j + 1) + " (" + nameLocal + ") " + this.clients.get(i).get_name();
+                            inf.add(info);
+                        }
+                    }
+                }
+            }
+        }
+//        int i,j,k;
+//        Employee atualEmployee = employees.get(idEmployee - 1);
+//        String name = atualEmployee.get_name();
+//        String[] inf = new String[0];
+//        for(i=0; i<clients.size(); i++){
+//            for(k=0; k<clients.get(i).get_deliveries().size(); k++){
+//                Delivery atualDelivery = clients.get(i).get_deliveries().get(k);
+//                List<String> nameEmployees = new LinkedList<String>();
+//                for(j=0; j< atualDelivery.getLoaders().size(); j++){
+//                    nameEmployees.add( atualDelivery.getLoaders().get(j).get_name() );
+//                }
+//                if( atualDelivery.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
+//                    String infDelivery = i + " " + k + " " + locals.get( atualDelivery.getIdLocal()-1 ) + " " + clients.get(i).get_name();
+//                    inf[i] = infDelivery;
+//                }
+//            }
+//        }
         return inf;
     }
 
@@ -465,43 +592,43 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public String[] info_depositsCC(int idClient) {
-        String[] info = new String[0];
+    public List<String> info_depositsCC(int idClient) {
+        List<String> info = new LinkedList<String>();
         Client atualClient = clients.get(idClient-1);
         List<Deposit> deposits = atualClient.get_deposits();
         for(int i=0; i<deposits.size(); i++){
             int idLocal = deposits.get(i).getIdLocal();
-            String infDeposit = i + " " + locals.get(idLocal-1).getName();
-            info[i] = infDeposit;
+            String infDeposit = (i + 1) + " (" + locals.get(idLocal-1).getName() + ")";
+            info.add(infDeposit);
         }
         return info;
     }
 
     @Override
-    public String[] info_deliveriesCC(int idClient) {
-        String[] info = new String[0];
+    public List<String> info_deliveriesCC(int idClient) {
+        List<String> info = new LinkedList<String>();
         Client atualClient = clients.get(idClient-1);
         List<Delivery> deliveries = atualClient.get_deliveries();
         for(int i=0; i<deliveries.size(); i++){
             int idLocal = deliveries.get(i).getIdLocal();
-            String infDelivery = i + " " + locals.get(idLocal-1).getName();
-            info[i] = infDelivery;
+            String infDelivery = (i + 1) + " (" + locals.get(idLocal-1).getName() + ")";
+            info.add(infDelivery);
         }
         return info;
     }
 
     @Override
-    public String[] info_depositsCI(int idClient, int idItem) {
+    public List<String> info_depositsCI(int idClient, int idItem) {
         Client atualClient = clients.get(idClient-1);
         String nameItem = atualClient.get_inventory().get(idItem-1).get_name();
         List<Deposit> deposits = atualClient.get_deposits();
-        String[] inf = new String[0];
+        List<String> inf = new LinkedList<String>();
         for(int i=0; i<deposits.size(); i++){
             List<Item> cargo = deposits.get(i).getItems();
             for(int j=0; j<cargo.size(); j++){
                 if(cargo.get(j).get_name().equals(nameItem)){
-                    String infDeposit = i + " " + cargo.get(j).get_quantity();
-                    inf[j] = infDeposit; 
+                    String infDeposit = (i + 1)  + " " + cargo.get(j).get_quantity();
+                    inf.add(infDeposit);
                 }
             }
         }
@@ -509,17 +636,17 @@ public class TServiceClass implements TService, Serializable {
     }
 
     @Override
-    public String[] info_deliveriesCI(int idClient, int idItem) {
+    public List<String> info_deliveriesCI(int idClient, int idItem) {
         Client atualClient = clients.get(idClient-1);
         String nameItem = atualClient.get_inventory().get(idItem-1).get_name();
         List<Delivery> deliveries = atualClient.get_deliveries();
-        String[] inf = new String[0];
+        List<String> inf = new LinkedList<String>();
         for(int i=0; i<deliveries.size(); i++){
             List<Item> cargo = deliveries.get(i).getItems();
             for(int j=0; j<cargo.size(); j++){
                 if(cargo.get(j).get_name().equals(nameItem)){
-                    String infDelivery = i + " " + cargo.get(j).get_quantity();
-                    inf[j] = infDelivery;
+                    String infDelivery = (i + 1) + " " + cargo.get(j).get_quantity();
+                    inf.add(infDelivery);
                 }
             }
         }

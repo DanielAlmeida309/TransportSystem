@@ -3,9 +3,7 @@ package D3.views;
 import D3.controllers.TService;
 import D3.controllers.TServiceClass;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class main {
     public static void main(String[] args){
@@ -60,7 +58,7 @@ public class main {
                     commandG(ts, sc, comm2);
                     break;
                 case "L":
-                    commandL(ts, sc, comm2);
+                    ts = commandL(ts, sc, comm2);
                     break;
 
                 case "0":
@@ -77,7 +75,7 @@ public class main {
 
 
     static void commandRF(TService ts,Scanner sc,String[] comm2){
-        String category = comm2[1], permission = comm2[2], name = comm2[3];
+        String category = comm2[1], permission = comm2[2], name = comm2[3] + " " +  comm2[4];
 
         if( !ts.category_existent(category) ){
 
@@ -99,7 +97,7 @@ public class main {
     }
 
     static void commandRC(TService ts,Scanner sc,String[] comm2){
-        String name = comm2[2];
+        String name = comm2[2] + " " + comm2[3];
         int idEmployee = Integer.parseInt(comm2[1]);
 
         if (!ts.has_employee(idEmployee)) {
@@ -121,7 +119,17 @@ public class main {
 
     private static void commandRI(TService ts, Scanner sc, String[] comm2) {
         String idClient = comm2[1];
-        String nameItem = comm2[2];
+        String nameItem = "";
+        for(int i = 2; i < comm2.length; i ++) {
+            if(i == 2) {
+                nameItem += comm2[i];
+            }
+            else {
+                nameItem += " " + comm2[i];
+            }
+        }
+//        String nameItem = comm2[2] + " " + comm2[3];
+        List<String> permissions = Arrays.asList(sc.nextLine().split(" ", 8));
 
         if( ! ts.has_idClient(Integer.parseInt(idClient)) ){
 
@@ -130,7 +138,7 @@ public class main {
         }else{
             String nameClient = ts.get_nameClient(Integer.parseInt(idClient));
 
-            String permissions[] = sc.nextLine().split(" ", 8);
+
 
             int ids[] =ts.register_item(nameClient, nameItem, permissions);
             System.out.println("Item registado para o cliente " + ids[0] + " com o identificador " + ids[1]);
@@ -165,15 +173,18 @@ public class main {
 
         }else{
 
-            String idEmployees[] = sc.nextLine().split(" ", 8);
-            String items[][] = new String[0][];
-            int i = 0;
-            do{
-                items[i] = sc.nextLine().split(" ", 3);
-                i++;
-            }while(items.length != 0);
+            List<String> idEmployees = Arrays.asList(sc.nextLine().split(" ", 8));
+            List<Integer> idItems = new ArrayList<>();
+            List<Integer> quantidade = new ArrayList<>();
 
-            if( ts.has_items(idClient, items) ){
+            while (true) {
+                List<String> str = Arrays.asList(sc.nextLine().split(" ", 2));
+                if (str.get(0).equals("")) break;
+                idItems.add(Integer.parseInt(str.get(0)));
+                quantidade.add(Integer.parseInt(str.get(1)));
+            }
+
+            if( !ts.has_items(idClient, idItems) ){
 
                 System.out.println("Item inexistente.");
 
@@ -181,17 +192,17 @@ public class main {
 
                 System.out.println("Funcionário inexistente.");
 
-            }else if ( ! ts.driver_have_permission(idEmployees[0], items) ){
+            }else if ( ! ts.driver_have_permission(idClient, Integer.parseInt(idEmployees.get(0)), idItems) ){
 
                 System.out.println("Condutor sem permissões.");
 
-            }else if ( ! ts.loaders_have_permissions(idEmployees, items) ){
+            }else if ( ! ts.loaders_have_permissions(idClient, Integer.parseInt(idEmployees.get(0)), idItems) ){
 
                 System.out.println("Carregador sem permissões.");
 
             }else{
 
-                System.out.println("Depósito registado com o identificador "+ ts.register_deposit(idClient, idLocal, idEmployees, items) +".");
+                System.out.println("Depósito registado com o identificador "+ ts.register_deposit(idClient, idLocal, idEmployees, idItems, quantidade) +".");
 
             }
         }
@@ -211,19 +222,22 @@ public class main {
 
         }else{
 
-            String idEmployees[] = sc.nextLine().split(" ", 8);
-            String items[][] = new String[0][];
-            int i = 0;
-            do{
-                items[i] = sc.nextLine().split(" ", 3);
-                i++;
-            }while(items.length != 0);
+            List<String> idEmployees = Arrays.asList(sc.nextLine().split(" ", 8));
+            List<Integer> idItems = new ArrayList<>();
+            List<Integer> quantidade = new ArrayList<>();
 
-            if( ts.has_items(idClient, items) ) {
+            while (true) {
+                List<String> str = Arrays.asList(sc.nextLine().split(" ", 2));
+                if (str.get(0).equals("")) break;
+                idItems.add(Integer.parseInt(str.get(0)));
+                quantidade.add(Integer.parseInt(str.get(1)));
+            }
+
+            if( !ts.has_items(idClient, idItems) ) {
 
                 System.out.println("Item inexistente.");
 
-            }else if( ! ts.have_quant_items(idClient, items)){
+            }else if(!ts.have_quant_items(idClient, idItems, quantidade)){
 
                 System.out.println("Quantidade insuficiente.");
 
@@ -231,17 +245,17 @@ public class main {
 
                 System.out.println("Funcionário inexistente.");
 
-            }else if ( ! ts.driver_have_permission(idEmployees[0], items) ){
+            }else if ( ! ts.driver_have_permission(idClient, Integer.parseInt(idEmployees.get(0)), idItems) ){
 
                 System.out.println("Condutor sem permissões.");
 
-            }else if ( ! ts.loaders_have_permissions(idEmployees, items) ){
+            }else if ( ! ts.loaders_have_permissions(idClient, Integer.parseInt(idEmployees.get(0)), idItems) ){
 
                 System.out.println("Carregador sem permissões.");
 
             }else{
 
-                System.out.println("Entrega registada o identificador "+ ts.register_delivery(idClient, idLocal, idEmployees, items) +".");
+                System.out.println("Entrega registada o identificador "+ ts.register_delivery(idClient, idLocal, idEmployees, idItems, quantidade) +".");
 
             }
         }
@@ -361,15 +375,25 @@ public class main {
     }
 
 
-    private static void commandL(TService ts, Scanner sc, String[] comm2) { //criar exception caso não consiga abrir file
+    private static TService commandL(TService ts, Scanner sc, String[] comm2) { //criar exception caso não consiga abrir file
         String nameFile = comm2[1];
 
-        if( ts.readFile(nameFile) ){
-            System.out.println("Ficheiro lido com sucesso.");
-        }
-        else {
+        Object objectRetuned = ts.readFile(nameFile);
+        if (objectRetuned instanceof Boolean) {
             System.out.println("Ficheiro inexistente.");
+
         }
+        else if(objectRetuned instanceof TService) {
+            System.out.println("Ficheiro lido com sucesso.");
+            return (TService) objectRetuned;
+        }
+        return ts;
+//        if( ts.readFile(nameFile) ){
+//            System.out.println("Ficheiro lido com sucesso.");
+//        }
+//        else {
+//            System.out.println("Ficheiro inexistente.");
+//        }
     }
 
 
