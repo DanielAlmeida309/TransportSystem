@@ -77,7 +77,12 @@ public class main {
 
 
     static void commandRF(TService ts,Scanner sc,String[] comm2){
-        String category = comm2[1], permission = comm2[2], name = comm2[3];
+        String category = comm2[1], permission = comm2[2], name;
+        if(comm2.length == 5){
+            name = comm2[3] + " " + comm2[4];
+        }else{
+            name = comm2[3];
+        }
 
         if( !ts.category_existent(category) ){
 
@@ -99,8 +104,13 @@ public class main {
     }
 
     static void commandRC(TService ts,Scanner sc,String[] comm2){
-        String name = comm2[2];
         int idEmployee = Integer.parseInt(comm2[1]);
+        String name;
+        if(comm2.length == 4){
+            name = comm2[2] + " " + comm2[3];
+        }else{
+            name = comm2[2];
+        }
 
         if (!ts.has_employee(idEmployee)) {
             System.out.println("Funcionario inexistente.");
@@ -120,8 +130,12 @@ public class main {
     }
 
     private static void commandRI(TService ts, Scanner sc, String[] comm2) {
-        String idClient = comm2[1];
-        String nameItem = comm2[2];
+        String idClient = comm2[1], nameItem;
+        if(comm2.length == 4){
+            nameItem = comm2[2] + " " + comm2[3];
+        }else{
+            nameItem = comm2[2];
+        }
 
         if( ! ts.has_idClient(Integer.parseInt(idClient)) ){
 
@@ -167,13 +181,19 @@ public class main {
 
             String idEmployees[] = sc.nextLine().split(" ", 8);
             String items[][] = new String[0][];
-            int i = 0;
-            do{
-                items[i] = sc.nextLine().split(" ", 3);
+            sc.nextLine();
+            for(int i=0;i<-1;i++){
+                String txt = sc.nextLine();
+                if(txt== ""){
+                    System.out.println("teste");
+                    break;
+                }else{
+                    items[i] = txt.split(" ", 3);
+                }
                 i++;
-            }while(items.length != 0);
+            }
 
-            if( ts.has_items(idClient, items) ){
+            if( ! ts.has_items(idClient, items) ){
 
                 System.out.println("Item inexistente.");
 
