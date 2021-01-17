@@ -214,15 +214,15 @@ public class TServiceClass implements TService, Serializable {
     public int register_deposit(int idClient, int idLocal, String[] idEmployees, String[][] items) {
         int i, j;
         Driver driver = null;
-        Client client = null;
+        Client client;
         List<Loader> loaders = new LinkedList<Loader>();
         List<Item> cargo = new LinkedList<Item>();
 
-        List<Item> inventory = null;
-        List<Deposit> deposits = null;
+        List<Item> inventory = new LinkedList<Item>();
+        List<Deposit> deposits = new LinkedList<Deposit>();
 
         for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
-            if(idClient == i+1){
+            if(idClient == i){
                 client = clients.get(i);
                 inventory = client.get_inventory();
                 deposits = client.get_deposits();
@@ -242,15 +242,18 @@ public class TServiceClass implements TService, Serializable {
             }
         }
 
-        for(String idEmployee : idEmployees){
-            int id = Integer.parseInt(idEmployee)-1;
-            if( employees.get( id ) instanceof Driver ){
-                driver = (Driver) employees.get(id);
-            }else if( employees.get( id ) instanceof Loader){
-                loaders.add( (Loader) employees.get(id) );
+        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
+            if( Integer.parseInt(idEmployees[0]) == i+1){
+                driver = (Driver) employees.get(i);
             }
         }
-
+        for(i=1; i<idEmployees.length; i++){  //vai buscar os objetos dos loaders inseridos
+            for(j=0; j<employees.size(); j++){
+                if( Integer.parseInt(idEmployees[0]) == j+1){
+                    loaders.add( (Loader) employees.get(j) );
+                }
+            }
+        }
 
         Deposit new_deposit = new DepositClass(idLocal, driver, loaders, cargo);
         deposits.add(new_deposit);
@@ -463,9 +466,9 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public String[] info_depositsCC(int idClient) {
+        String[] info = new String[0];
         Client atualClient = clients.get(idClient-1);
         List<Deposit> deposits = atualClient.get_deposits();
-        String[] info = new String[deposits.size()];
         for(int i=0; i<deposits.size(); i++){
             int idLocal = deposits.get(i).getIdLocal();
             String infDeposit = i + " " + locals.get(idLocal-1).getName();
@@ -476,9 +479,9 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public String[] info_deliveriesCC(int idClient) {
+        String[] info = new String[0];
         Client atualClient = clients.get(idClient-1);
         List<Delivery> deliveries = atualClient.get_deliveries();
-        String[] info = new String[deliveries.size()];
         for(int i=0; i<deliveries.size(); i++){
             int idLocal = deliveries.get(i).getIdLocal();
             String infDelivery = i + " " + locals.get(idLocal-1).getName();
@@ -492,16 +495,15 @@ public class TServiceClass implements TService, Serializable {
         Client atualClient = clients.get(idClient-1);
         String nameItem = atualClient.get_inventory().get(idItem-1).get_name();
         List<Deposit> deposits = atualClient.get_deposits();
-        String[] inf = new String[deposits.size()];
+        String[] inf = new String[0];
         for(int i=0; i<deposits.size(); i++){
             List<Item> cargo = deposits.get(i).getItems();
-            for(int j=0;j<cargo.size();j++) {
-                if (cargo.get(j).get_name().equals(nameItem)) {
-                    String infDeposit = i + " " + cargo.get(i).get_quantity();
-                    inf[i] = infDeposit;
+            for(int j=0; j<cargo.size(); j++){
+                if(cargo.get(j).get_name().equals(nameItem)){
+                    String infDeposit = i + " " + cargo.get(j).get_quantity();
+                    inf[j] = infDeposit; 
                 }
             }
-
         }
         return inf;
     }
@@ -511,7 +513,7 @@ public class TServiceClass implements TService, Serializable {
         Client atualClient = clients.get(idClient-1);
         String nameItem = atualClient.get_inventory().get(idItem-1).get_name();
         List<Delivery> deliveries = atualClient.get_deliveries();
-        String[] inf = new String[deliveries.size()];
+        String[] inf = new String[0];
         for(int i=0; i<deliveries.size(); i++){
             List<Item> cargo = deliveries.get(i).getItems();
             for(int j=0; j<cargo.size(); j++){
