@@ -388,12 +388,6 @@ public class main {
             return (TService) objectRetuned;
         }
         return ts;
-//        if( ts.readFile(nameFile) ){
-//            System.out.println("Ficheiro lido com sucesso.");
-//        }
-//        else {
-//            System.out.println("Ficheiro inexistente.");
-//        }
     }
 
 

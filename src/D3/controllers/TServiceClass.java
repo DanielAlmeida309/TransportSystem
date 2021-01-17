@@ -188,7 +188,6 @@ public class TServiceClass implements TService, Serializable {
         for(Integer idItem: idItems) {
             List<String> itemPermissions = this.clients.get(idClient-1).get_inventory().get(idItem-1).getPermissions();
             for(String p: itemPermissions) {
-                System.out.println(p);
                 if(!driverPermissions.contains(p)) {
                     return false;
                 }
@@ -213,68 +212,26 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public int register_deposit(int idClient, int idLocal, List<String> idEmployees, List<Integer> idItems, List<Integer> quantidade) {
-        int i, j;
+        int i;
         Driver driver = null;
-        Client client;
         List<Loader> loaders = new LinkedList<Loader>();
         List<Item> cargo = new LinkedList<Item>();
 
         List<Item> inventory = new LinkedList<Item>();
         List<Deposit> deposits = new LinkedList<Deposit>();
 
-//        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
-//            if(idClient == i){
-//                client = clients.get(i);
-//                inventory = client.get_inventory();
-//                deposits = client.get_deposits();
-//            }
-//        }
-
         inventory = this.clients.get(idClient-1).get_inventory();
         deposits = this.clients.get(idClient-1).get_deposits();
-
-//        for(i=0; i<inventory.size(); i++){
-//            for(j=0; j<idItems.size(); j++){
-//                int quantItem = quandidade.get(j);
-//                if( i == idItems.get(i) ){
-//                    Item atualItem = inventory.get(i);
-//
-//                    System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
-//                    this.clients.get(idClient-1).get_inventory().get(i).add_quantity(quantItem);
-//                    System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
-//
-//                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
-//                    cargo.add(new_item);
-//                }
-//            }
-//        }
 
         for(i = 0; i < idItems.size(); i++) {
             int quantItem = quantidade.get(i);
             Item atualItem = inventory.get(i);
 
-//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
             this.clients.get(idClient-1).get_inventory().get(i).add_quantity(quantItem);
-//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
 
             Item new_item = new ItemClass(atualItem.get_name(), quantItem);
             cargo.add(new_item);
         }
-
-//        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
-//            if( Integer.parseInt(idEmployees.get(0)) == i+1){
-//                driver = (Driver) employees.get(i);
-//            }
-//        }
-//        driver = (Driver) this.employees.get(Integer.parseInt(idEmployees.get(0)));
-//
-//        for(i=1; i<idEmployees.size(); i++){  //vai buscar os objetos dos loaders inseridos
-//            for(j=0; j<employees.size(); j++){
-//                if( Integer.parseInt(idEmployees.get(0)) == j+1){
-//                    loaders.add( (Loader) employees.get(j) );
-//                }
-//            }
-//        }
 
         for (i = 0; i < idEmployees.size(); i++) {
             if (this.employees.get(Integer.parseInt(idEmployees.get(i))-1) instanceof Driver) {
@@ -285,11 +242,9 @@ public class TServiceClass implements TService, Serializable {
             }
         }
 
-
         Deposit new_deposit = new DepositClass(idLocal, driver, loaders, cargo);
         deposits.add(new_deposit);
         return deposits.size();
-
     }
 
     @Override
@@ -304,63 +259,27 @@ public class TServiceClass implements TService, Serializable {
 
     @Override
     public int register_delivery(int idClient, int idLocal, List<String> idEmployees, List<Integer> idItems, List<Integer> quantidade) {
-        int i, j;
+        int i;
         Driver driver = null;
-        Client client;
         List<Loader> loaders = new LinkedList<Loader>();
         List<Item> cargo = new LinkedList<Item>();
 
         List<Item> inventory = new LinkedList<Item>();
         List<Delivery> deliveries = new LinkedList<Delivery>();
 
-//        for(i=0; i<clients.size();i++){ //vai buscar o objeto do cliente
-//            if(idClient == i){
-//                client = clients.get(i);
-//                inventory = client.get_inventory();
-//                deliveries = client.get_deliveries();
-//            }
-//        }
-
         inventory = this.clients.get(idClient-1).get_inventory();
         deliveries = this.clients.get(idClient-1).get_deliveries();
 
-//        for(i=0; i<=inventory.size();i++){
-//            for(j=0;j<idItems.size();j++){
-//                int quantItem = quantidade.get(j);
-//                if( i == idItems.get(j) ){
-//                    Item atualItem = inventory.get(i);
-//                    atualItem.remove_quantity( quantItem);
-//
-//                    Item new_item = new ItemClass(atualItem.get_name(), quantItem);
-//                    cargo.add(new_item);
-//                }
-//            }
-//        }
 
         for(i = 0; i < idItems.size(); i++) {
             int quantItem = quantidade.get(i);
             Item atualItem = inventory.get(i);
 
-//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
             this.clients.get(idClient-1).get_inventory().get(i).remove_quantity(quantItem);
-//            System.out.println(this.clients.get(idClient-1).get_inventory().get(i).get_quantity());
 
             Item new_item = new ItemClass(atualItem.get_name(), quantItem);
             cargo.add(new_item);
         }
-
-//        for(i=0; i<employees.size(); i++){   //vai buscar o objeto do driver inserido
-//            if( Integer.parseInt(idEmployees.get(0)) == i+1){
-//                driver = (Driver) employees.get(i);
-//            }
-//        }
-//        for(i=1; i<idEmployees.size(); i++){  //vai buscar os objetos dos loaders inseridos
-//            for(j=0; j<employees.size(); j++){
-//                if( Integer.parseInt(idEmployees.get(0)) == j+1){
-//                    loaders.add( (Loader) employees.get(j) );
-//                }
-//            }
-//        }
 
         for (i = 0; i < idEmployees.size(); i++) {
             if (this.employees.get(Integer.parseInt(idEmployees.get(i))-1) instanceof Driver) {
@@ -409,7 +328,6 @@ public class TServiceClass implements TService, Serializable {
             int identificarItem = this.clients.get(idClient).get_inventory().indexOf(item) + 1;
             stringList.add("" + identificarItem + " " + item.get_quantity() + " " + item.get_name());
         }
-
 
         return stringList;
     }
@@ -485,24 +403,6 @@ public class TServiceClass implements TService, Serializable {
                 }
             }
         }
-
-//        int i,j,k;
-//        Employee atualEmployee = employees.get(idEmployee - 1);
-//        String name = atualEmployee.get_name();
-//        List<String> inf = new LinkedList<String>();
-//        for(i=0; i<clients.size(); i++){
-//            for(k=0; k<clients.get(i).get_deposits().size(); k++){
-//                Deposit atualDeposit = clients.get(i).get_deposits().get(k);
-//                List<String> nameEmployees = new LinkedList<String>();
-//                for(j=0; j< atualDeposit.getLoaders().size(); j++){
-//                    nameEmployees.add( atualDeposit.getLoaders().get(j).get_name() );
-//                }
-//                if( atualDeposit.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
-//                    String infDeposit = i + " " + k + " " + locals.get( atualDeposit.getIdLocal()-1 ) + " " + clients.get(i).get_name();
-//                    inf.add(infDeposit);
-//                }
-//            }
-//        }
         return inf;
     }
 
@@ -546,23 +446,6 @@ public class TServiceClass implements TService, Serializable {
                 }
             }
         }
-//        int i,j,k;
-//        Employee atualEmployee = employees.get(idEmployee - 1);
-//        String name = atualEmployee.get_name();
-//        String[] inf = new String[0];
-//        for(i=0; i<clients.size(); i++){
-//            for(k=0; k<clients.get(i).get_deliveries().size(); k++){
-//                Delivery atualDelivery = clients.get(i).get_deliveries().get(k);
-//                List<String> nameEmployees = new LinkedList<String>();
-//                for(j=0; j< atualDelivery.getLoaders().size(); j++){
-//                    nameEmployees.add( atualDelivery.getLoaders().get(j).get_name() );
-//                }
-//                if( atualDelivery.getDriver().get_name().equals(name) || nameEmployees.contains(name) ){
-//                    String infDelivery = i + " " + k + " " + locals.get( atualDelivery.getIdLocal()-1 ) + " " + clients.get(i).get_name();
-//                    inf[i] = infDelivery;
-//                }
-//            }
-//        }
         return inf;
     }
 
