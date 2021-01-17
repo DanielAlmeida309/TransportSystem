@@ -298,7 +298,7 @@ public class main {
 
         }else if( ! ts.has_item_client(idClient, idItem) ){
 
-            System.out.println("Cliente inexistente.");
+            System.out.println("Item inexistente.");
 
         }else{
 
